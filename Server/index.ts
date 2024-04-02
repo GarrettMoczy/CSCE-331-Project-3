@@ -20,7 +20,7 @@ const pool = new Pool({
 app.use(express.json())
 app.use(function (req, res, next) {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3001');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS,SET');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Access-Control-Allow-Headers');
   next();
 });
@@ -59,7 +59,7 @@ app.post('/new_menu_option', (req,res) => {
         .query("SELECT new_menu_option($1, $2, $3)",[name, parseFloat(price), ingredients])  
         .then(response => {
             res.status(200).send(response);
-          })  
+        })  
 })
 
 app.post('/new_add_on', (req,res) => {
@@ -69,7 +69,7 @@ app.post('/new_add_on', (req,res) => {
         .query("SELECT new_ingredient($1, $2, $3, $4)",[name, Number(stock), parseFloat(price), Number(minStock)])  
         .then(response => {
             res.status(200).send(response);
-          })  
+        })  
 })
 
 app.post('/new_drink', (req,res) => {
@@ -79,7 +79,7 @@ app.post('/new_drink', (req,res) => {
         .query("SELECT new_drink_size($1, $2)",[size, parseFloat(price)])  
         .then(response => {
             res.status(200).send(response);
-          })  
+        })  
 })
 
 //---------------Deleting Options---------------//
@@ -91,7 +91,7 @@ app.delete('/delete_drink', (req,res) => {
         .query("SELECT delete_drink($1)",[size])  
         .then(response => {
             res.status(200).send(response);
-          })  
+        })  
 })
 
 app.delete('/delete_menu_item', (req,res) => {
@@ -101,7 +101,7 @@ app.delete('/delete_menu_item', (req,res) => {
         .query("SELECT delete_menu_item($1)",[name])  
         .then(response => {
             res.status(200).send(response);
-          })  
+        })  
 })
 
 app.delete('/delete_ingredient', (req,res) => {
@@ -111,9 +111,19 @@ app.delete('/delete_ingredient', (req,res) => {
         .query("SELECT delete_ingredient($1)",[name])  
         .then(response => {
             res.status(200).send(response);
-          })  
+        })  
 })
 
+//---------------Update Options---------------//
+app.put('/change_stock', (req,res) => {
+    const {name, stock} = req.body;
+    console.log(req.body);
+    pool
+        .query("SELECT update_stock($1,$2)", [name, stock])
+        .then(response => {
+            res.status(200).send(response);
+        })  
+})
 
     
 app.listen(port, () => {
