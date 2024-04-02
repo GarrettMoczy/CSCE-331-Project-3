@@ -7,7 +7,7 @@ function ManagerFun() {
     function newMenuItem() {
         let name = prompt('Name of the menu item:');
         let price = prompt('Price of the menu item:');
-        let ingredients_prompt = prompt('Ingredients used in menu item');
+        let ingredients_prompt = prompt('Ingredients used in menu item (Seperate by commas with no spacing):');
         if(ingredients_prompt == null) {
             ingredients = [];
         }
@@ -47,8 +47,8 @@ function ManagerFun() {
         })
     }
     function newDrink() {
-        let size = prompt('New size:');
-        let price = prompt('Price for the size');
+        let size = prompt('New size of drink:');
+        let price = prompt('Price for the size:');
 
         fetch('http://localhost:3000/new_drink', {
             method: 'POST',
@@ -81,7 +81,7 @@ function ManagerFun() {
         })
     }
     function deleteMenuItem() {
-        let name = prompt('What size would you like to delete:');
+        let name = prompt('What menu item would you like to delete:');
 
         fetch('http://localhost:3000/delete_menu_item', {
             method: 'DELETE',
@@ -96,7 +96,7 @@ function ManagerFun() {
         })
     }
     function deleteIngredient() {
-        let name = prompt('What size would you like to delete:');
+        let name = prompt('What ingredient would you like to delete:');
 
         fetch('http://localhost:3000/delete_ingredient', {
             method: 'DELETE',
@@ -110,6 +110,26 @@ function ManagerFun() {
             return response.text();
         })
     }
+
+    //---------------Update Options---------------//
+
+    function increaseStock() {
+        let name = prompt('What is the name of the ingredient you want to increase the stock of:');
+        let stock = prompt('How much would you like to increase the stock by:');
+
+        fetch('http://localhost:3000/change_stock', {
+            method: 'PUT',
+            headers: {
+                'Access-Control-Allow-Headers': "*",
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({name, stock}),
+        })
+        .then(response => {
+            return response.text();
+        })
+    }
+
     return (
         <div>
             <div className='New Options'>
@@ -125,6 +145,9 @@ function ManagerFun() {
                 <button onClick={deleteIngredient}>Delete Ingredient</button>
                 <br />
                 <button onClick={deleteDrink}>Delete Drink</button>
+            </div>
+            <div className='Update Options'>
+                <button onClick={increaseStock}>Increase Stock</button>
             </div>
         </div>
     )
