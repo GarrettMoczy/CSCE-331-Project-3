@@ -1,6 +1,6 @@
 'use client'
 import React, { useState, useEffect } from 'react'
-import ManagerFun from '../components/ManagerFun';
+import ManagerFun from '../components/MenuItemComponent/ManagerFun';
 
 
 export default function Manager() {

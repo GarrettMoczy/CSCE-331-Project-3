@@ -1,14 +1,14 @@
 'use client'
-import Image from "next/image";
-import MenuItemComp from "./components/MenuItemComponent/MenuItemComponent";
-import React, { useState, useEffect } from 'react'
-
+import Navbar from "./components/Navbar/Navbar"; 
+import HeroSection from "./components/HeroSection/HeroSection"
+import Description from "./components/Description/Description";
 
 export default function Home() {
-
-
     return (
-        <main >
+        <main>
+            <Navbar /> 
+            <HeroSection />
+            <Description />
             <div>
                 Paco Paco mfers
             </div>
