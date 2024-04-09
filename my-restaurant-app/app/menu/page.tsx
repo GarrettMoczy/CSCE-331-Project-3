@@ -31,7 +31,7 @@ export default function Menu() {
 
     function addToCart(item: any) {
         const Cart: CartItem = ({name: item.name, price: item.price});
-        setCartItems([...CartItems, Cart]);
+        CartItems.push(Cart);
     }
 
     function getIngredients(){
