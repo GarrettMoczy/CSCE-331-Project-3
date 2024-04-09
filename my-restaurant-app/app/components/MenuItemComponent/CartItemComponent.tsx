@@ -7,8 +7,10 @@ interface CartItemProps {
 
 export default function CartItem({name, price}: CartItemProps){
     return(
-        <div>
-            {name}: {price}
+        <div className="flex">
+            <div>
+                {name}: {price}
+            </div>
         </div>
     );
 }

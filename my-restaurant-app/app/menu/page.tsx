@@ -2,7 +2,7 @@
 import MenuItemComp from "../components/MenuItemComponent/MenuItemComponent";
 import CartItemComp from "../components/MenuItemComponent/CartItemComponent"
 import React, { useState, useEffect } from 'react'
-
+import Navbar from "../components/Navbar/Navbar";
 
 export default function Menu() {
 
@@ -18,9 +18,6 @@ export default function Menu() {
         price: string;
     }
     
-    function MenuItemClick(){
-        console.log("click")
-    }
     
     const [MenuItems, setMenuItems] = useState<MenuItem[]>([]);
     const [CartItems, setCartItems] = useState<CartItem[]>([]);
@@ -56,6 +53,7 @@ export default function Menu() {
 
     return (
         <main>
+            <Navbar></Navbar>
             <div className="flex flex-row items-center h-screen w-screen justify-end">
                 <div className="h-auto w-1/4">
                 </div>

@@ -26,6 +26,9 @@ const Navbar: React.FC = () => {
           </Link>
         </li>
       </ul>
+      <div>
+            <img src="images/img-5.png" className='w-10'/>
+      </div>
     </nav>
   );
 };
