@@ -1,5 +1,7 @@
 "use client"
 
+import { David_Libre } from "next/font/google";
+
 interface MenuItemProps {
     name: string;
     price: string;
@@ -9,13 +11,13 @@ interface MenuItemProps {
 
 export default function MenuItem({name, price, altTxt, thisOnClick}: MenuItemProps){
     return(
-        <button className='flex flex-col justify-center items-center  rounded-3xl border-white border-4 overflow-off' onClick={thisOnClick}>
+        <div className='flex flex-col border-white border-2 bg-zinc-900 overflow-off' onClick={thisOnClick}>
             <div className='font-bold text-white'>
                 {name}
             </div>
-            <div className='flex justify-center font-bold text-white'>
-                {price}
+            <div className="justify-self-end text-sm">
+                {parseFloat(price).toFixed(2)}$
             </div>
-        </button>
+        </div>
     );
 }

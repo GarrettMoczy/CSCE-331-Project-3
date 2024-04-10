@@ -54,10 +54,11 @@ export default function Menu() {
     return (
         <main>
             <Navbar></Navbar>
-            <div className="flex flex-row items-center h-screen w-screen justify-end">
-                <div className="h-auto w-1/4">
-                </div>
-                <div className="p-5 mx-20 flex flex-row grid gap-4 grid-cols-3 font-bold text-white border-4 h-3/4 overflow-y-scroll rounded-xl flex-wrap">
+            <div className="flex flex-col items-left h-auto w-screen">
+                <h1 className="text-8xl p-5">
+                    Tacos
+                </h1>
+                <div className=" m-5px font-bold text-white overflow-auto">
                     {MenuItems.map((MenuItem, index) => (
                         <MenuItemComp
                             key={index}
@@ -68,9 +69,7 @@ export default function Menu() {
                         />
                     ))}
                 </div>
-                <div className="h-auto w-1/4">
-                </div>
-                <div className="flex flex-col items-center h-screen bg-slate-100 w-20lvh max-w-md min-w-56  font-mono text-black overflow-auto ">
+                {/* <div className="flex flex-col items-center h-screen bg-slate-100 w-20lvh max-w-md min-w-56  font-mono text-black overflow-auto ">
                     Cart
                     {CartItems.map((CartItem, index) => (
                         <CartItemComp
@@ -79,11 +78,11 @@ export default function Menu() {
                             price={CartItem.price}
                         />
                     ))}
-                    <div className="justify-self-end">
-                        Total: {CartItems.reduce((sum, item) => sum + parseFloat(item.price), 0)}
                     </div>
+                    <div className="justify-self-center">
+                        Total: {CartItems.reduce((sum, item) => sum + parseFloat(item.price), 0)}
+                    </div> */}
                 </div>
-            </div>
         </main>
     );
 }
