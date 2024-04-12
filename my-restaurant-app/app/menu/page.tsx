@@ -10,6 +10,7 @@ export default function Menu() {
         name: string;
         price: string;
         altTxt: string;
+        calorie: number;
         thisOnClick: () => void;
     }
 
@@ -45,6 +46,7 @@ export default function Menu() {
                     name: item.name,
                     price: item.price,
                     altTxt: "",
+                    calorie: item.calorie,
                     thisOnClick: () => {addToCart(item)}
                 }));
                 setMenuItems(menuData);
@@ -54,16 +56,17 @@ export default function Menu() {
     return (
         <main>
             <Navbar></Navbar>
-            <div className="flex flex-col items-left h-auto w-screen">
+            <div className="flex flex-col items-left h-auto w-auto">
                 <h1 className="text-8xl p-5">
                     Tacos
                 </h1>
-                <div className=" m-5px font-bold text-white overflow-auto">
+                <div className="flex flex-row flex-wrap font-bold text-white overflow-off">
                     {MenuItems.map((MenuItem, index) => (
                         <MenuItemComp
                             key={index}
                             name={MenuItem.name}
                             price={MenuItem.price}
+                            calorie={MenuItem.calorie}
                             thisOnClick={MenuItem.thisOnClick}
                             altTxt={MenuItem.altTxt}
                         />

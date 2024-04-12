@@ -38,3 +38,9 @@
   background-color: #888686fb;
   color: black;
 }
+
+.navImage {
+  float: right;
+  list-style-type: none;
+  padding-top: 1.5vh;
+}

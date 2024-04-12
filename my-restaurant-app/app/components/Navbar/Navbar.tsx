@@ -9,6 +9,9 @@ const Navbar: React.FC = () => {
           PACO PACO
         </Link>
       </div>
+      <button className='navImage'>
+            <img src="images/img-5.png" className='w-10'/>
+      </button>
       <ul className='navmenu'>
         <li className='navitem'>
           <Link href="/menu" passHref className='navlink'>
@@ -26,9 +29,6 @@ const Navbar: React.FC = () => {
           </Link>
         </li>
       </ul>
-      <div>
-            <img src="images/img-5.png" className='w-10'/>
-      </div>
     </nav>
   );
 };
