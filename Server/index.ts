@@ -67,6 +67,23 @@ app.get('/ingredients', (req, res) => {
         });
 });
 
+app.get('/drinks', (req, res) => {
+    pool
+        .query('SELECT size FROM drinks')
+        .then((query_res) => {
+            if (query_res.rows.length === 0) {
+                res.status(404).json({ error: 'No menu items found' });
+            } 
+            else {
+              res.json(query_res.rows);
+            }
+        })
+        .catch((error) => {
+            console.error('Error executing the SQL query:', error);
+            res.status(500).json({ error: error.message });
+        });
+});
+
 //---------------Creating Options---------------//
 
 app.post('/new_menu_option', (req,res) => {
