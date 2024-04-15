@@ -115,6 +115,26 @@ app.post('/new_drink', (req,res) => {
             res.status(200).send(response);
         })  
 })
+
+app.post('/new_order', (req, res) => {
+
+    const { orderId, menuItems, drinkItems, addOns } = req.body;
+
+    console.log(req.body);
+
+    pool
+        .query("SELECT new_order($1, $2, $3, $4)", [orderId, menuItems, drinkItems, addOns])
+        .then(response => {
+
+            res.status(200).send(response);
+        })
+        .catch(error => {
+
+            console.error('Error executing the query:', error);
+            res.status(500).json({ error: error.message });
+        });
+}); 
+
 //order id string array menu items string array drink items string array add ons
 //---------------Deleting Options---------------//
 

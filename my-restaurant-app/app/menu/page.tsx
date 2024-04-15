@@ -53,6 +53,26 @@ export default function Menu() {
         })
     }
 
+    function checkOut(CartItems : any[]) {
+        fetch('http://localhost:3000/new_order', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(CartItems)
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to send order');
+            }
+            CartItems = [];
+        })
+        .catch(error => {
+            CartItems = []
+        })
+        setCartItems([]);
+    }
+
     return (
         <main>
             <Navbar></Navbar>
@@ -72,7 +92,7 @@ export default function Menu() {
                         />
                     ))}
                 </div>
-                {/* <div className="flex flex-col items-center h-screen bg-slate-100 w-20lvh max-w-md min-w-56  font-mono text-black overflow-auto ">
+                <div className="flex flex-col items-center h-screen bg-slate-100 w-20lvh max-w-md min-w-56  font-mono text-black overflow-auto ">
                     Cart
                     {CartItems.map((CartItem, index) => (
                         <CartItemComp
@@ -82,9 +102,10 @@ export default function Menu() {
                         />
                     ))}
                     </div>
-                    <div className="justify-self-center">
+                    <div className="flex flex-row justify-self-center">
                         Total: {CartItems.reduce((sum, item) => sum + parseFloat(item.price), 0)}
-                    </div> */}
+                        <button onClick={() => checkOut(CartItems)}className="px-4"> Check out</button>
+                    </div>
                 </div>
         </main>
     );
