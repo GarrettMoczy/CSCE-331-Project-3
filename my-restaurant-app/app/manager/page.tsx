@@ -295,8 +295,14 @@ export default function Manager() {
                 </div>
 
 
-                {/* <div className='Delete Options'>
-                    <div className="deleteDrink">
+                <div className='Delete Options'>
+
+                    <button onClick={deleteIngredient}>Delete Ingredient</button>
+                    <br />
+                    <button onClick={deleteDrink}>Delete Drink</button>
+                    <br />
+                    <button onClick={deleteMenuItem}>Delete Menu Itemk</button>
+                    {/* <div className="deleteDrink">
                         <button type="button" className="btn" onClick={toggleModal}>Delete Drink</button>
                     </div>
                     <Modal open={showModal} onClose={toggleModal}>
@@ -339,8 +345,13 @@ export default function Manager() {
                                 <input type='submit'/>
                         </form>
                         </div>
-                    </Modal>
-                </div> */}
+                    </Modal> */}
+                </div>
+                <div className='Changing'>
+                    <button onClick={increaseStock}>Increase Stock</button>
+                    <br />
+                    <button onClick={changePrice}>Change Price</button>
+                </div>
             </div>
         </main>
     )
