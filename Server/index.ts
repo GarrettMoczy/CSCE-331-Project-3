@@ -50,6 +50,23 @@ app.get('/menu_items', (req, res) => {
         });
 });
 
+app.get('/ingredients', (req, res) => {
+    pool
+        .query('SELECT name FROM ingredients')
+        .then((query_res) => {
+            if (query_res.rows.length === 0) {
+                res.status(404).json({ error: 'No menu items found' });
+            } 
+            else {
+              res.json(query_res.rows);
+            }
+        })
+        .catch((error) => {
+            console.error('Error executing the SQL query:', error);
+            res.status(500).json({ error: error.message });
+        });
+});
+
 //---------------Creating Options---------------//
 
 app.post('/new_menu_option', (req,res) => {
@@ -85,10 +102,10 @@ app.post('/new_drink', (req,res) => {
 //---------------Deleting Options---------------//
 
 app.delete('/delete_drink', (req,res) => {
-    const {size} = req.body;
+    const {name} = req.body;
     console.log(req.body);
     pool
-        .query("SELECT delete_drink($1)",[size])  
+        .query("SELECT delete_drink($1)",[name])  
         .then(response => {
             res.status(200).send(response);
         })  
@@ -120,6 +137,16 @@ app.put('/change_stock', (req,res) => {
     console.log(req.body);
     pool
         .query("SELECT update_stock($1,$2)", [name, stock])
+        .then(response => {
+            res.status(200).send(response);
+        })  
+})
+
+app.put('/change_price', (req,res) => {
+    const {name, price} = req.body;
+    console.log(req.body);
+    pool
+        .query("UPDATE menu_item SET price = ($2) WHERE name = ($1)", [name, price])
         .then(response => {
             res.status(200).send(response);
         })  
