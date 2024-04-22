@@ -58,7 +58,7 @@ function CartModal({ setOpenModal }: { setOpenModal: any }) {
                         ))}
             </div>
             
-            {cart.length == 0 && 
+            {cart.length === 0 && 
             <div> 
                 Hungry? We have something for that...
             </div>

@@ -29,18 +29,15 @@ export default function Menu() {
     }, []);
 
     function addToCart(item: any) {
-        const newItem: CartItem = ({name: item.name, price: item.price});
-        var cart: Array<CartItem>
-        if(localStorage.getItem("cart") == null) {
-             cart = []
-        }
-        else {
-            cart= JSON.parse(localStorage.getItem("cart") as string);
+        const newItem: CartItem = { name: item.name, price: item.price };
+        let cart: CartItem[] = [];
+        if (localStorage.getItem("cart") !== null) {
+            cart = JSON.parse(localStorage.getItem("cart") as string);
         }
        
-        cart.push(newItem)
-        var testVar = JSON.stringify(cart)
-        localStorage.setItem("cart", testVar)
+        cart.push(newItem);
+        const testVar = JSON.stringify(cart);
+        localStorage.setItem("cart", testVar);
     }
 
     function getIngredients(){
