@@ -34,7 +34,8 @@ const Navbar: React.FC = () => {
           </li>
         </ul>
       </nav>
-      {openModal && <Modal />}
+      {openModal && <Modal
+                      setOpenModal={setOpenModal} />}
     </div>
   );
 };

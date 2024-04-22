@@ -116,23 +116,26 @@ app.post('/new_drink', (req,res) => {
         })  
 })
 
-app.post('/new_order', (req, res) => {
+app.post('/new_order', async (req, res) => {
+    pool 
 
-    const { orderId, menuItems, drinkItems, addOns } = req.body;
+    const {cartItemNames, drinkItems, addOns } = req.body;
 
-    console.log(req.body);
 
-    pool
-        .query("SELECT new_order($1, $2, $3, $4)", [orderId, menuItems, drinkItems, addOns])
-        .then(response => {
-
-            res.status(200).send(response);
-        })
-        .catch(error => {
-
-            console.error('Error executing the query:', error);
-            res.status(500).json({ error: error.message });
-        });
+    let orderId;
+    
+    const orderIdQuery = "SELECT new_order(1)"
+    try{
+        const client = await pool.connect();
+        const result = await client.query(orderIdQuery)
+        orderId = result.rows[0].new_order
+        const result2 = await client.query("SELECT complete_order($1, $2, $3, $4)", [orderId, cartItemNames, drinkItems, addOns]);
+        res.json({orderId: orderId})
+    }
+    catch(error){
+        console.error("Error creating new order", error)
+        res.status(500).json({error: error.message})
+    }
 }); 
 
 //order id string array menu items string array drink items string array add ons

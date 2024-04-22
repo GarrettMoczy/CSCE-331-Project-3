@@ -11,7 +11,7 @@ export default function Menu() {
         price: string;
         altTxt: string;
         calorie: number;
-        thisOnClick: () => void;
+        // thisOnClick: () => void;
     }
 
     interface CartItem {
@@ -22,14 +22,25 @@ export default function Menu() {
     
     const [MenuItems, setMenuItems] = useState<MenuItem[]>([]);
     const [CartItems, setCartItems] = useState<CartItem[]>([]);
+    const [numItems, setNumItems] = useState<number>(0);
     
     useEffect(() => {
         getIngredients();
-    });
+    }, []);
 
     function addToCart(item: any) {
-        const Cart: CartItem = ({name: item.name, price: item.price});
-        CartItems.push(Cart);
+        const newItem: CartItem = ({name: item.name, price: item.price});
+        var cart: Array<CartItem>
+        if(localStorage.getItem("cart") == null) {
+             cart = []
+        }
+        else {
+            cart= JSON.parse(localStorage.getItem("cart") as string);
+        }
+       
+        cart.push(newItem)
+        var testVar = JSON.stringify(cart)
+        localStorage.setItem("cart", testVar)
     }
 
     function getIngredients(){
@@ -47,36 +58,17 @@ export default function Menu() {
                     price: item.price,
                     altTxt: "",
                     calorie: item.calorie,
-                    thisOnClick: () => {addToCart(item)}
+                    // thisOnClick: addToCart(item)
                 }));
                 setMenuItems(menuData);
         })
     }
 
-    function checkOut(CartItems : any[]) {
-        fetch('http://localhost:3000/new_order', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(CartItems)
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to send order');
-            }
-            CartItems = [];
-        })
-        .catch(error => {
-            CartItems = []
-        })
-        setCartItems([]);
-    }
 
     return (
         <main>
             <Navbar></Navbar>
-            <div className="flex flex-col items-left h-auto w-auto">
+            <div className="flex flex-col items-left h-auto w-auto pt-20">
                 <h1 className="text-8xl p-5">
                     Tacos
                 </h1>
@@ -87,26 +79,12 @@ export default function Menu() {
                             name={MenuItem.name}
                             price={MenuItem.price}
                             calorie={MenuItem.calorie}
-                            thisOnClick={MenuItem.thisOnClick}
+                            thisOnClick= {() => addToCart(MenuItem)}
                             altTxt={MenuItem.altTxt}
                         />
                     ))}
                 </div>
-                <div className="flex flex-col items-center h-screen bg-slate-100 w-20lvh max-w-md min-w-56  font-mono text-black overflow-auto ">
-                    Cart
-                    {CartItems.map((CartItem, index) => (
-                        <CartItemComp
-                            key={index}
-                            name={CartItem.name}
-                            price={CartItem.price}
-                        />
-                    ))}
-                    </div>
-                    <div className="flex flex-row justify-self-center">
-                        Total: {CartItems.reduce((sum, item) => sum + parseFloat(item.price), 0)}
-                        <button onClick={() => checkOut(CartItems)}className="px-4"> Check out</button>
-                    </div>
-                </div>
+            </div>
         </main>
     );
 }
