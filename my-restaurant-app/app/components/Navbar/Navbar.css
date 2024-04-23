@@ -2,7 +2,9 @@
 .navbar {
   background-color: #000000af;
   overflow: hidden;
-  border-bottom: 6px solid white;
+  position:fixed;
+  width: 100vw;
+  z-index: 500;
 }
 
 .navlogo {
@@ -43,4 +45,6 @@
   float: right;
   list-style-type: none;
   padding-top: 1.5vh;
+  padding-right: 1.5vw;
+  z-index: 1000;
 }

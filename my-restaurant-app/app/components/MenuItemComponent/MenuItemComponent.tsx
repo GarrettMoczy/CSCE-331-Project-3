@@ -33,7 +33,7 @@ export default function MenuItem({name, price, altTxt, calorie, thisOnClick}: Me
                         price={price}
                         altTxt={altTxt}
                         calorie={calorie}
-                        thisOnClick={thisOnClick} />}
+                        thisOnClick= {thisOnClick} />}
         </div>
     );
 }
