@@ -201,11 +201,11 @@ const OPENWEATHERMAP_API_KEY = '41f500e976a7a9d3a938ab703c42c369';
 async function getTemperatureByIP(ipAddress: string): Promise<number> {
   try {
     // Fetch location information based on IP address
-    const locationResponse = await axios.get(http://ip-api.com/json/${ipAddress});
+    const locationResponse = await axios.get(`http://ip-api.com/json/${ipAddress}`);
     const { city, country } = locationResponse.data;
 
     // Fetch weather information based on location
-    const weatherResponse = await axios.get(http://api.openweathermap.org/data/2.5/weather?q=${city},${country}&appid=${OPENWEATHERMAP_API_KEY}&units=metric);
+    const weatherResponse = await axios.get(`http://api.openweathermap.org/data/2.5/weather?q=${city},${country}&appid=${OPENWEATHERMAP_API_KEY}&units=metric`);
     const { main: { temp } } = weatherResponse.data;
 
     return temp;
@@ -225,6 +225,8 @@ app.get('/temperature', async (req: Request, res: Response) => {
     res.status(500).json({ error: error.message });
   }
 });
+
+
 //---------------Temperature option---------------//
     
 app.listen(port, () => {
