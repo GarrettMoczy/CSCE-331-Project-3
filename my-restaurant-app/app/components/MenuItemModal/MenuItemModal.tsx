@@ -28,7 +28,7 @@ function MenuItemModal({ setOpenModal, name, price, altTxt, calorie, thisOnClick
                 </div>
             </div>
             <div>
-                <button onClick={() => {thisOnClick; setOpenModal(false);}} className="self-center border-2 rounded-md bg-black p-1 m-3 w-40">Send to Cart </button>
+                <button onClick={() => {thisOnClick(); setOpenModal(false);}} className="self-center border-2 rounded-md bg-black p-1 m-3 w-40">Send to Cart </button>
                 <button className="self-center border-2 rounded-md bg-black p-1 m-3 w-40" onClick={() => setOpenModal(false)}>Cancel</button>
             </div>
         </div>
