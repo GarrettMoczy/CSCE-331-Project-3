@@ -1,70 +1,45 @@
 'use client'
 import React, { useState, useEffect } from 'react'
 import Navbar from "../components/Navbar/Navbar";
-import Modal from './modal';
-
+import DeleteFunction from "../components/ManagerComponent/deleteFunction"
+import CreateMenuItemFunction from "../components/ManagerComponent/deleteFunction"
 
 
 
 export default function Manager() {
 
-    // interface Ingredient {
-    //     name: string;
-    //     thisOnClick: () => void;
-    // }
+    // Used for deletion:
+    interface Ingredient {
+        name: string;
+    }
 
-    // interface menuIngredients {
-    //     name: string;
-    // }
-
-
-    // Holding ingredients and list of ingredients in a menu item:
-    // const [ingredientList, setIngredientList] = useState<Ingredient[]>([]);
-    // const [menuIng, setMenuIng] = useState<menuIngredients[]>([]);
-
-    // //Holding item name:
-    // const [itemName, setitemName] = useState("");
-
-    // // Hold price:
-    // const [itemPrice, setItemPrice] = useState("");
-
-    // // Hold stock:
-    // const [itemStock, setItemStock] = useState("");
-
-    // // Hold min stock:
-    // const [itemMinStock, setItemMinStock] = useState("");
-
-    // useEffect(() => {
-    //     getIngredients();
-    // });
-
-    // const [showModal, setShowModal] = useState<boolean>(false);
-
-    // function toggleModal() {
-    //     setShowModal(!showModal);
-    // }
+    interface Drink {
+        name: string;
+    }
     
-    // function addToMenuItem(item: any) {
-    //     const ingredient: menuIngredients = ({name: item});
-    //     menuIng.push(ingredient);
-    // }
+    interface MenuOption {
+        name: string;
+    }
 
-    function newMenuItem() {
-        let name = prompt('Name of the menu item:');
-        if(name == null) {
-            return;
-        }
-        let price = prompt('Price of the menu item:');
-        if(price == null) {
-            return;
-        }
+    // What ingredients will be apart of a menu option:
+    interface menuIngredients {
+        name: string;
+    }
 
-        let ingredients_prompt = prompt();
-        if(ingredients_prompt == null) {
-            return;
-        }
-        var ingredients = ingredients_prompt.split(",");
 
+    // Holding ingredients:, drinks, menu options:
+    const [ingredientList, setIngredientList] = useState<Ingredient[]>([]);
+    const [drinkList, setDrinkList] = useState<Drink[]>([]);
+    const [menuList, setMenuList] = useState<MenuOption[]>([]);
+
+
+    useEffect(() => {
+        getIngredients();
+        getDrinks();
+        getMenuOptions();
+    }, []);
+
+    function newMenuItem(name: string, price: string, ingredients: string[] ) {
         fetch('http://localhost:3000/new_menu_option', {
             method: 'POST',
             headers: {
@@ -133,11 +108,7 @@ export default function Manager() {
 
     //---------------Deleting Options---------------//
 
-    function deleteDrink() {
-        let name = prompt('Drink name to delete:');
-        if(name == null) {
-            return;
-        }
+    function deleteDrink(name: string) {
         fetch('http://localhost:3000/delete_drink', {
             method: 'DELETE',
             headers: {
@@ -150,11 +121,7 @@ export default function Manager() {
             return response.text();
         })
     }
-    function deleteMenuItem() {
-        let name = prompt('Menu Item Name to delete:');
-        if(name == null) {
-            return;
-        }
+    function deleteMenuItem(name: string) {
         fetch('http://localhost:3000/delete_menu_item', {
             method: 'DELETE',
             headers: {
@@ -167,11 +134,7 @@ export default function Manager() {
             return response.text();
         })
     }
-    function deleteIngredient() {
-        let name = prompt('Ingredient to delete:');
-        if(name == null) {
-            return;
-        }
+    function deleteIngredient(name: string) {
         fetch('http://localhost:3000/delete_ingredient', {
             method: 'DELETE',
             headers: {
@@ -234,25 +197,56 @@ export default function Manager() {
 
     //---------------Helper Functions---------------//
 
-    // function getIngredients(){
-    //     fetch(`http://localhost:3000/ingredients`) // Replace with the actual API endpoint URL
-    //         .then((response) => {
-    //             if (!response.ok) {
-    //                 throw new Error('Network response was not ok');
-    //             }
-    //             return response.json();
-    //         })
-    //         .then((data) => {
-    //             // Process the data received from the API and store it in the state   
-    //             const ingData: Ingredient[] = data.map((item: any) => ({
-    //                 name: item.name,
-    //                 thisOnClick: () => {addToMenuItem(item)}
-    //             }));
-    //             setMenuIng(ingData);
-    //     })
-    // }
+    // Getting items and putting them into their assigned states:
+    function getIngredients(){
+        fetch(`http://localhost:3000/ingredients`) // Replace with the actual API endpoint URL
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then((data) => {
+                // Process the data received from the API and store it in the state   
+                const ingData: Ingredient[] = data.map((item: any) => ({
+                    name: item.name,
+                }));
+                setIngredientList(ingData);
+        })
+    }
+    function getDrinks(){
+        fetch(`http://localhost:3000/drinks`) // Replace with the actual API endpoint URL
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then((data) => {
+                // Process the data received from the API and store it in the state   
+                const ingData: Drink[] = data.map((item: any) => ({
+                    name: item.size,
+                }));
+                setDrinkList(ingData);
+        })
+    }
+    function getMenuOptions(){
+        fetch(`http://localhost:3000/menu_items`) // Replace with the actual API endpoint URL
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then((data) => {
+                // Process the data received from the API and store it in the state   
+                const ingData: MenuOption[] = data.map((item: any) => ({
+                    name: item.name,
+                }));
+                setMenuList(ingData);
+        })
+    }
 
-    //---------------Test Functions---------------//
 
 
     return (
@@ -260,93 +254,16 @@ export default function Manager() {
             <Navbar></Navbar>
             <div>
                 <div className='New Options'>
-                    {/* <div className="Create Menu Item">
-                        <button type="button" className="btn" onClick={toggleModal}>Create Menu Item</button>
-                    </div>
-                    <Modal open={showModal} onClose={toggleModal}>
-                        <div>
-                        <form onSubmit={newMenuItem}>
-                                <label>
-                                    New Menu Item Name:
-                                    <input style={{color: "black"}} type='text' value={itemName} onChange={(e) => setitemName(e.target.value)}/>
-                                </label>
-                                <label>
-                                    Price:
-                                    <input style={{color: "black"}} type='text' value={itemPrice} onChange={(e) => setitemName(e.target.value)}/>
-                                </label>
-                                <label>
-                                    Ingredients:
-                                    <select name="fruits" multiple={true}>
-                                        {ingredientList.map((e, key) => {
-                                            return <option key={key} value={e.value}>{e.name}</option>;
-                                        })}
-                                    </select>
-                                    
-                                </label>
-                                <input type='submit'/>
-                        </form>
-                        </div>
-                    </Modal> */}
-                    <button onClick={newMenuItem}>New Ingredient</button>
-                    <br />
-                    <button onClick={newIngredient}>New Ingredient</button>
-                    <br />
-                    <button onClick={newDrink}>New Drink</button>
+                    <CreateMenuItemFunction name='Create Menu Item' items={ingredientList} fun={newMenuItem} />
                 </div>
 
 
                 <div className='Delete Options'>
-
-                    <button onClick={deleteIngredient}>Delete Ingredient</button>
-                    <br />
-                    <button onClick={deleteDrink}>Delete Drink</button>
-                    <br />
-                    <button onClick={deleteMenuItem}>Delete Menu Itemk</button>
-                    {/* <div className="deleteDrink">
-                        <button type="button" className="btn" onClick={toggleModal}>Delete Drink</button>
-                    </div>
-                    <Modal open={showModal} onClose={toggleModal}>
-                        <div>
-                        <form onSubmit={deleteDrink}>
-                                <label>
-                                    Drink to be deleted:
-                                    <input style={{color: "black"}} type='text' value={itemName} onChange={(e) => setitemName(e.target.value)}/>
-                                </label>
-                                <input type='submit'/>
-                        </form>
-                        </div>
-                    </Modal>
-                    <br />
-                        <div className="deleteMenuItem">
-                            <button type="button" className="btn" onClick={toggleModal}>Delete Menu Item</button>
-                        </div>
-                        <Modal open={showModal} onClose={toggleModal}>
-                            <div>
-                            <form onSubmit={deleteMenuItem}>
-                                    <label>
-                                        Menu item to be deleted:
-                                        <input style={{color: "black"}} type='text' value={itemName} onChange={(e) => setitemName(e.target.value)}/>
-                                    </label>
-                                    <input type='submit'/>
-                            </form>
-                            </div>
-                        </Modal>
-                    <br />
-                    <div className="deleteIngredient">
-                        <button type="button" className="btn" onClick={toggleModal}>Delete Ingredient</button>
-                    </div>
-                    <Modal open={showModal} onClose={toggleModal}>
-                        <div>
-                        <form onSubmit={deleteIngredient}>
-                                <label>
-                                    Ingredient to be deleted:
-                                    <input style={{color: "black"}} type='text' value={itemName} onChange={(e) => setitemName(e.target.value)}/>
-                                </label>
-                                <input type='submit'/>
-                        </form>
-                        </div>
-                    </Modal> */}
+                    <DeleteFunction name="Delete Ingredient" items = {ingredientList} fun = {deleteIngredient} />
+                    <DeleteFunction name="Delete Drink" items = {drinkList} fun = {deleteDrink} />
+                    <DeleteFunction name="Delete Menu Item" items = {menuList} fun = {deleteMenuItem} />
                 </div>
+                    
                 <div className='Changing'>
                     <button onClick={increaseStock}>Increase Stock</button>
                     <br />
