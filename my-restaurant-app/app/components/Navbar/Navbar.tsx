@@ -2,7 +2,21 @@ import Link from 'next/link';
 import './Navbar.css';
 import Modal from "../CartModal/CartModal";
 import {useState} from "react";
-
+import { GoogleLogin } from 'react-google-login';
+  const responseGoogle = (response: any) => {
+        console.log(response);
+  }
+  const handleGoogleLogin = () => {
+    return (
+      <GoogleLogin
+        clientId= "426894892243-8busb36ofb5949nkdf4qgvq10g0rci3l.apps.googleusercontent.com"
+        buttonText="Manager"
+        onSuccess={responseGoogle}
+        onFailure={responseGoogle}
+        cookiePolicy={'single_host_origin'}
+      />
+    );
+  }
 const Navbar: React.FC = () => {
   const [openModal, setOpenModal] = useState(false);
   return (
@@ -23,13 +37,19 @@ const Navbar: React.FC = () => {
             </Link>
           </li>
           <li className='navitem'>
+
             <Link href="/manager" passHref className='navlink'>
-              Manager
+            <GoogleLogin
+              clientId= "426894892243-8busb36ofb5949nkdf4qgvq10g0rci3l.apps.googleusercontent.com"
+              buttonText="Manager"
+              onSuccess={responseGoogle}
+              onFailure={responseGoogle}
+              cookiePolicy={'single_host_origin'}
+            />
             </Link>
           </li>
           <li className='navitem'>
             <Link href="/waiter" passHref className='navlink'>
-              Waiter
             </Link>
           </li>
         </ul>
