@@ -87,10 +87,10 @@ app.get('/drinks', (req, res) => {
 //---------------Creating Options---------------//
 
 app.post('/new_menu_option', (req,res) => {
-    const {name, price, ingredients} = req.body;
+    const {name, price, calories, ingredients} = req.body;
     console.log(req.body);
     pool
-        .query("SELECT new_menu_option($1, $2, $3)",[name, parseFloat(price), ingredients])  
+        .query("SELECT new_menu_option($1, $2, $3, $4)",[name, parseFloat(price), parseFloat(calories), ingredients])  
         .then(response => {
             res.status(200).send(response);
         })  
