@@ -27,13 +27,13 @@ function DeleteItemModal({ setOpenModal, name, items, fun}: ModalItemProps) {
                 <button onClick={()=> setOpenModal(false)}> X </button>
             </div>
             <div className="">
-                <div className='font-bold text-white'>
+                <div className='font-bold text-white place-self-center'>
                     {name}:
                 </div>
                 <form>
-                    <select value={itemName} onChange={handleChange} className="w-3/4 bg-white border border-gray-300 px-2 py-1 pr-4 rounded">
+                    <select value={itemName} onChange={handleChange} className="border-2 rounded-md bg-black p-1 m-3 w-1/2 ">
                         {items.map((e: any, key: any) => {
-                            return <option style={{color: "black"}} key={key} value={e.value}>{e.name}</option>;
+                            return <option key={key} value={e.value}>{e.name}</option>;
                         })}
                     </select>
                 </form>

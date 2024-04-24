@@ -8,6 +8,9 @@ interface ModalItemProps {
     items: any;
     fun: any;
 }
+interface menuIngredients {
+    name: string;
+}
 
 // Prompt the user to delete an item and based on parameters to decide from which
 // setOpenModal - if the modal is open
@@ -17,7 +20,9 @@ interface ModalItemProps {
 function CreateMenuItemModal({ setOpenModal, name, items, fun}: ModalItemProps) {
     const [menuName, setMenuName] = useState("");
     const [price, setPrice] = useState("");
-    const [ingredients, setIngredients] = useState("");
+    const [calories, setCalories] = useState("");
+    const [ing, setIng] = useState("");
+    const [ingredients, setIngredients] = useState<menuIngredients[]>([]);
 
     const changeName = (e: any) => {
         setMenuName(e.target.value);
@@ -25,9 +30,13 @@ function CreateMenuItemModal({ setOpenModal, name, items, fun}: ModalItemProps) 
     const changePrice = (e: any) => {
         setPrice(e.target.value);
     }
-    const changeIngredients = (e: any) => {
-        setIngredients(e.target.value);
+    const changeCalories = (e: any) => {
+        setCalories(e.target.value);
     }
+    const changeIngredients = (e: any) => {
+        setIngredients([e.target.value, ...ingredients]);
+        console.log(ingredients);
+    }      
 
     return (
     <div className="modalBackground">
@@ -41,13 +50,31 @@ function CreateMenuItemModal({ setOpenModal, name, items, fun}: ModalItemProps) 
                 </div>
                 <form>
                     <label>
+                        <br />
                         Enter Menu Item Name:
-                        <input type="text"/>
+                        <input className="self-center border-2 rounded-md m-1 bg-black w-40 float-right" type="text" onChange={changeName}/>
+                        <br />
+                        <br />
+                        Enter Price:
+                        <input className="self-center border-2 rounded-md m-1 bg-black w-40" type="text" onChange={changePrice}/>
+                        <br />
+                        <br />
+                        Total Calories:
+                        <input className="self-center border-2 rounded-md m-1 bg-black w-40" type="text" onChange={changeCalories}/>
+                        <br />
+                        <br />
+                        Ingredients Used:
+                        <br />
+                        <select multiple id="test" onChange={changeIngredients} className="self-center border-2 rounded-md bg-black p-1 m-1 h-56 w-3/4">
+                            {items.map((e: any, key: any) => {
+                                return <option key={key} value={e.value}>{e.name}</option>;
+                            })}
+                        </select>
                     </label>
                 </form>
             </div>
             <div>
-                <button onClick={() => {fun(menuName, price, ingredients), setOpenModal(false);}} className="self-center border-2 rounded-md bg-black p-1 m-3 w-40"> Submit </button>
+                <button onClick={() => {fun(menuName, price, calories, ingredients), setOpenModal(false);}} className="self-center border-2 rounded-md bg-black p-1 m-3 w-40"> Submit </button>
                 <button className="self-center border-2 rounded-md bg-black p-1 m-3 w-40" onClick={() => setOpenModal(false)}>Cancel</button>
             </div>
         </div>

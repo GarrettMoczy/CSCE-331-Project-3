@@ -5,6 +5,7 @@ import "../MenuItemModal/MenuItemModal.css"
 interface ModalItemProps {
     setOpenModal: any;
     name: string;
+    items: any;
     fun: any;
 }
 
@@ -14,15 +15,15 @@ interface ModalItemProps {
 // name - Title of modal
 // item - array of which possible items maybe deleted
 // thisOnClick - function used
-function CreateDrinkModal({ setOpenModal, name, fun}: ModalItemProps) {
-    const [drinkName, setDrinkName] = useState("");
-    const [price, setPrice] = useState("");
+function IncreaseStockModal({ setOpenModal, name, items, fun}: ModalItemProps) {
+    const [ingName, setIngName] = useState("");
+    const [stock, setStock] = useState("");
 
     const changeName = (e: any) => {
-        setDrinkName(e.target.value);
+        setIngName(e.target.value);
     }
     const changePrice = (e: any) => {
-        setPrice(e.target.value);
+        setStock(e.target.value);
     } 
 
     return (
@@ -38,17 +39,19 @@ function CreateDrinkModal({ setOpenModal, name, fun}: ModalItemProps) {
                 <form>
                     <label>
                         <br />
-                        Enter Drink Size:
-                        <input className="self-center border-2 rounded-md m-1 bg-black w-40 " type="text" onChange={changeName}/>
+                        <select value={ingName} onChange={changeName} className="border-2 rounded-md bg-black p-1 m-3 w-3/4 ">
+                            {items.map((e: any, key: any) => {
+                                return <option key={key} value={e.value}>{e.name}</option>;
+                            })}
+                        </select>
                         <br />
-                        <br />
-                        Enter Price:
+                        Increase Stock by:
                         <input className="self-center border-2 rounded-md m-1 bg-black w-40" type="text" onChange={changePrice}/>
                     </label>
                 </form>
             </div>
             <div>
-                <button onClick={() => {fun(drinkName, price), setOpenModal(false);}} className="self-center border-2 rounded-md bg-black p-1 m-3 w-40"> Submit </button>
+                <button onClick={() => {fun(ingName, stock), setOpenModal(false);}} className="self-center border-2 rounded-md bg-black p-1 m-3 w-40"> Submit </button>
                 <button className="self-center border-2 rounded-md bg-black p-1 m-3 w-40" onClick={() => setOpenModal(false)}>Cancel</button>
             </div>
         </div>
@@ -56,4 +59,4 @@ function CreateDrinkModal({ setOpenModal, name, fun}: ModalItemProps) {
     );
 } 
 
-export default CreateDrinkModal;
+export default IncreaseStockModal;
