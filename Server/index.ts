@@ -192,6 +192,9 @@ app.put('/change_price', (req,res) => {
         })  
 })
 
+
+
+//---------------Temperature option---------------//
     
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);

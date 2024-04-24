@@ -46,7 +46,7 @@ function CartModal({ setOpenModal }: { setOpenModal: any }) {
     useEffect( () => {setCart(localStorage.getItem("cart") != null ? JSON.parse(localStorage.getItem("cart") as string) : [])})
 
     return (
-        <div className="flex flex-col fixed flex-wrap bg-white border-w overflow-off rounded-md my-5 z-[999] text-black font-semibold h-96 w-52 mr-2 right-0 top-10">
+        <div className="flex flex-col fixed flex-wrap bg-white border-w overflow-off rounded-md my-5 z-[999] text-black font-semibold h-96 w-52 mr-2 right-0 top-10 items-center">
             <div>
                 {
                 cart.map((CartItem, index) => (
@@ -66,7 +66,7 @@ function CartModal({ setOpenModal }: { setOpenModal: any }) {
             <button className="" onClick={() => {localStorage.clear()}}>
                 clear cart
             </button>
-            <button className="mt-auto bg-black text-white border rounded-md border-white " onClick={() => { checkOut(cart,[""],[""]); setOpenModal(false)}}>
+            <button className="mt-auto bg-black text-white border rounded-md border-white w-full " onClick={() => { checkOut(cart,[""],[""]); setOpenModal(false)}}>
                 Check out
             </button>
         </div>
