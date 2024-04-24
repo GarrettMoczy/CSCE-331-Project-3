@@ -2,7 +2,11 @@
 import React, { useState, useEffect } from 'react'
 import Navbar from "../components/Navbar/Navbar";
 import DeleteFunction from "../components/ManagerComponent/deleteFunction"
-import CreateMenuItemFunction from "../components/ManagerComponent/deleteFunction"
+import CreateMenuItemFunction from "../components/ManagerComponent/createMenuItemFunction"
+import CreateDrinkFunction from "../components/ManagerComponent/createDrinkFunction"
+import CreateIngredientFunction from "../components/ManagerComponent/createIngredientFunction"
+import ChangePriceFunction from "../components/ManagerComponent/changePriceFunction"
+import IncreaseStockFunction from "../components/ManagerComponent/increaseStockFunction"
 
 
 
@@ -39,38 +43,20 @@ export default function Manager() {
         getMenuOptions();
     }, []);
 
-    function newMenuItem(name: string, price: string, ingredients: string[] ) {
+    function newMenuItem(name: string, price: string, calories: string, ingredients: string[] ) {
         fetch('http://localhost:3000/new_menu_option', {
             method: 'POST',
             headers: {
                 'Access-Control-Allow-Headers': "*",
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({name, price, ingredients}),
+            body: JSON.stringify({name, price, calories, ingredients}),
         })
         .then(response => {
             return response.text();
         })
     }
-    function newIngredient() {
-        let name = prompt('Name of the ingredient');
-        if(name == null) {
-            return;
-        }
-        let stock = prompt('Amount of stock:');
-        if(stock == null) {
-            return;
-        }
-        let price = prompt('Price of the ingredient');
-        if(price == null) {
-            return;
-        }
-        let minStock = prompt('What is the minimum stock of this ingredient:');
-        if(minStock == null) {
-            return;
-        }
-        
-
+    function newIngredient(name: string, stock: string, price: string, minStock: string) {
         fetch('http://localhost:3000/new_add_on', {
             method: 'POST',
             headers: {
@@ -83,16 +69,7 @@ export default function Manager() {
             return response.text();
         })
     }
-    function newDrink() {
-        let size = prompt('New size of drink:');
-        if(size == null) {
-            return;
-        }
-        let price = prompt('Price for the size:');
-        if(price == null) {
-            return;
-        }
-
+    function newDrink(size: string, price: string) {
         fetch('http://localhost:3000/new_drink', {
             method: 'POST',
             headers: {
@@ -150,16 +127,7 @@ export default function Manager() {
 
     //---------------Update Options---------------//
 
-    function increaseStock() {
-        let name = prompt('What is the name of the ingredient you want to increase the stock of:');
-        if(name == null) {
-            return;
-        }
-        let stock = prompt('How much would you like to increase the stock by:');
-        if(stock == null) {
-            return;
-        }
-
+    function increaseStock(name: string, stock: string) {
         fetch('http://localhost:3000/change_stock', {
             method: 'PUT',
             headers: {
@@ -173,15 +141,7 @@ export default function Manager() {
         })
     }
 
-    function changePrice() {
-        let name = prompt('Menu item to change the price of:');
-        if(name == null) {
-            return;
-        }
-        let price = prompt('New price:');
-        if(name == null) {
-            return;
-        }
+    function changePrice(name: string, price: string) {
         fetch('http://localhost:3000/change_stock', {
             method: 'PUT',
             headers: {
@@ -253,21 +213,27 @@ export default function Manager() {
         <main>
             <Navbar></Navbar>
             <div>
-                <div className='New Options'>
+                {/* Fix Formatting */}
+                <div className='New Options'>   
+                    <br />
+                    <br />
+                    <br />                  
                     <CreateMenuItemFunction name='Create Menu Item' items={ingredientList} fun={newMenuItem} />
+                    <CreateDrinkFunction name='Create Drink Size' fun={newDrink} />
+                    <CreateIngredientFunction name='Create Ingredient' fun={newIngredient} />
                 </div>
 
-
+                {/* Fix Formatting */}
                 <div className='Delete Options'>
                     <DeleteFunction name="Delete Ingredient" items = {ingredientList} fun = {deleteIngredient} />
                     <DeleteFunction name="Delete Drink" items = {drinkList} fun = {deleteDrink} />
                     <DeleteFunction name="Delete Menu Item" items = {menuList} fun = {deleteMenuItem} />
                 </div>
                     
+                {/* Fix Formatting */}    
                 <div className='Changing'>
-                    <button onClick={increaseStock}>Increase Stock</button>
-                    <br />
-                    <button onClick={changePrice}>Change Price</button>
+                    <IncreaseStockFunction name="Increase Ingredient Stock" items={ingredientList} fun={increaseStock} />
+                    <ChangePriceFunction name="Change Menu Item Price" items={menuList} fun={changePrice} />
                 </div>
             </div>
         </main>
