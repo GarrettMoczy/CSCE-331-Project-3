@@ -1,24 +1,38 @@
 import Link from 'next/link';
 import './Navbar.css';
 import Modal from "../CartModal/CartModal";
-import {useState} from "react";
-import { GoogleLogin } from 'react-google-login';
-  const responseGoogle = (response: any) => {
-        console.log(response);
-  }
-  const handleGoogleLogin = () => {
-    return (
-      <GoogleLogin
-        clientId= "426894892243-8busb36ofb5949nkdf4qgvq10g0rci3l.apps.googleusercontent.com"
-        buttonText="Manager"
-        onSuccess={responseGoogle}
-        onFailure={responseGoogle}
-        cookiePolicy={'single_host_origin'}
-      />
-    );
-  }
+import {useState, useEffect} from "react";
+import { GoogleLogin, GoogleLogout } from 'react-google-login';
+
+import {gapi} from 'gapi-script';
+
+
 const Navbar: React.FC = () => {
   const [openModal, setOpenModal] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    function start(){
+      gapi.client.init({
+        clientId: '426894892243-8busb36ofb5949nkdf4qgvq10g0rci3l.apps.googleusercontent.com',
+        scope:""
+      })
+    };
+    gapi.load('client:auth2', start);
+  });
+
+  
+  const onSuccess = (response: any) => {
+    // console.log(response);
+    setIsLoggedIn(true);
+}
+
+const onFailure = (response: any) => {
+    // console.log(response);
+    setIsLoggedIn(false);
+}
+  
+
   return (
     <div>
       <nav className='navbar'>
@@ -31,27 +45,47 @@ const Navbar: React.FC = () => {
               <img src="images/img-5.png" className='w-10'/>
         </button>
         <ul className='navmenu'>
+
+          <li className='navitem'>
+          {!isLoggedIn && (
+          <GoogleLogin className='navlink'
+                clientId='426894892243-8busb36ofb5949nkdf4qgvq10g0rci3l.apps.googleusercontent.com'
+                buttonText="Login"
+                onSuccess={onSuccess}
+                onFailure={onFailure}
+                cookiePolicy={'single_host_origin'}
+                isSignedIn={true}
+              />
+          )}
+          {isLoggedIn && (
+            <GoogleLogout className='navlink'
+                clientId='426894892243-8busb36ofb5949nkdf4qgvq10g0rci3l.apps.googleusercontent.com'
+                buttonText="Logout"
+                onLogoutSuccess={() => setIsLoggedIn(false)}
+              />
+          )}
+            
+          </li>
           <li className='navitem'>
             <Link href="/menu" passHref className='navlink'>
               Menu
             </Link>
           </li>
+          {isLoggedIn && (
+            <>
           <li className='navitem'>
 
             <Link href="/manager" passHref className='navlink'>
-            <GoogleLogin
-              clientId= "426894892243-8busb36ofb5949nkdf4qgvq10g0rci3l.apps.googleusercontent.com"
-              buttonText="Manager"
-              onSuccess={responseGoogle}
-              onFailure={responseGoogle}
-              cookiePolicy={'single_host_origin'}
-            />
+              Manager
             </Link>
           </li>
           <li className='navitem'>
             <Link href="/waiter" passHref className='navlink'>
+              Waiter
             </Link>
           </li>
+          </>
+          )}
         </ul>
       </nav>
       {openModal && <Modal />}
