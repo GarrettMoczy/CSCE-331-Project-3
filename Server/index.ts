@@ -52,7 +52,7 @@ app.get('/menu_items', (req, res) => {
 
 app.get('/ingredients', (req, res) => {
     pool
-        .query('SELECT name FROM ingredients')
+        .query('SELECT * FROM ingredients')
         .then((query_res) => {
             if (query_res.rows.length === 0) {
                 res.status(404).json({ error: 'No menu items found' });
@@ -69,7 +69,7 @@ app.get('/ingredients', (req, res) => {
 
 app.get('/drinks', (req, res) => {
     pool
-        .query('SELECT size FROM drinks')
+        .query('SELECT * FROM drinks')
         .then((query_res) => {
             if (query_res.rows.length === 0) {
                 res.status(404).json({ error: 'No menu items found' });

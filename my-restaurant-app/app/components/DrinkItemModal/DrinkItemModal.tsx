@@ -1,0 +1,51 @@
+'use client'
+import React, { useState } from "react"
+import "./DrinkItemModal.css"
+import DrinkOptionComp from "../DrinkOptionComponent/DrinkOptionComponent"
+
+interface ModalItemProps {
+    setOpenModal: any;
+    price: number;
+    altTxt: string;
+    calorie: string
+    size: string;
+    thisOnClick: (item: any) => void;
+}
+
+
+let drinkOptions :string[] = ["Pepsi", "Dr.Pepper","Unsweet Tea","Sweet Tea","Street", "Cane Cola","Berry Blast","Orange Creamsicle","Mug Root Beer","Columbian Hot Coffee","Iced Coffee"]
+
+function DrinkItemModal({ setOpenModal, price, altTxt, calorie, size, thisOnClick }: ModalItemProps) {
+    return (
+    <div className="modalBackground">
+        <div className="flex flex-col relative flex-wrap border-zinc-700 border-2 bg-zinc-900 rounded-lg overflow-off w-4/5 h-4/5">
+            <div className="header flex flex-row items-center justify-items-center h-28 w-full p-5">
+            <img src={"images/drinks/" + size + ".jpg"} className="w-24 pr-5"></img>
+                <div>
+                    {"Select " + size + " Drink"}
+                </div>
+                <div className="flex-auto">
+                        
+                </div>
+                <div className="">
+                    <button className="text-xl m-5" onClick={()=> setOpenModal(false)}> X </button>
+                </div>
+            </div>
+            <div className="flex flex-wrap mt-12 justify-center overflow-auto center">
+                {drinkOptions.map((drink,index) => (
+                    <DrinkOptionComp
+                        key={index}
+                        name={drink}
+                        price={price}
+                        size = {size}
+                        setOpenModal = {setOpenModal}
+                        thisOnClick = {thisOnClick}
+                    />
+                ))}
+            </div>
+        </div>
+    </div>
+    );
+} 
+
+export default DrinkItemModal;
