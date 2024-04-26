@@ -19,18 +19,28 @@ function CreateIngredientModal({ setOpenModal, name, fun}: ModalItemProps) {
     const [stock, setStock] = useState("");
     const [price, setPrice] = useState("");
     const [minStock, setMinStock] = useState("");
+    const [addOn, setAddOn] = useState(true);
 
     const changeName = (e: any) => {
         setIngName(e.target.value);
     }
     const changeStock = (e: any) => {
-        setPrice(e.target.value);
+        setStock(e.target.value);
     } 
     const changePrice = (e: any) => {
         setPrice(e.target.value);
     } 
     const changeMinStock = (e: any) => {
-        setPrice(e.target.value);
+        setMinStock(e.target.value);
+    } 
+    const changeAddOn = (e: any) => {
+        if(e.target.value == "Yes") {
+            setAddOn(true);
+        }
+        else {
+            setAddOn(false);
+        }
+        console.log(addOn);
     } 
 
     return (
@@ -60,11 +70,18 @@ function CreateIngredientModal({ setOpenModal, name, fun}: ModalItemProps) {
                         <br />
                         Enter Min-Stock:
                         <input className="self-center border-2 rounded-md m-1 bg-black w-40" type="text" onChange={changeMinStock}/>
+                        <br />
+                        <br />
+                        Allowed to be an add-on:
+                        <select className="self-center border-2 rounded-md m-1 bg-black w-40" onChange={changeAddOn}>
+                            <option>Yes</option>
+                            <option>No</option>
+                        </select>
                     </label>
                 </form>
             </div>
             <div>
-                <button onClick={() => {fun(ingName, stock, price, minStock), setOpenModal(false);}} className="self-center border-2 rounded-md bg-black p-1 m-3 w-40"> Submit </button>
+                <button onClick={() => {fun(ingName, stock, price, minStock, addOn), setOpenModal(false);}} className="self-center border-2 rounded-md bg-black p-1 m-3 w-40"> Submit </button>
                 <button className="self-center border-2 rounded-md bg-black p-1 m-3 w-40" onClick={() => setOpenModal(false)}>Cancel</button>
             </div>
         </div>
