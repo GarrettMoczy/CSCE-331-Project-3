@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react'
 import Navbar from "../components/Navbar/Navbar";
 import Modal from './modal';
-
+import Translate from '../components/Translate/Translate';
 
 
 
@@ -258,6 +258,10 @@ export default function Manager() {
     return (
         <main>
             <Navbar></Navbar>
+            <div className='fixed right-0 bottom-3 z-[999]'>
+                <Translate></Translate>
+            </div>
+           
             <div>
                 <div className='New Options'>
                     {/* <div className="Create Menu Item">

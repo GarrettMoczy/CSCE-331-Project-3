@@ -3,7 +3,7 @@ import MenuItemComp from "../components/MenuItemComponent/MenuItemComponent";
 import CartItemComp from "../components/MenuItemComponent/CartItemComponent"
 import React, { useState, useEffect } from 'react'
 import Navbar from "../components/Navbar/Navbar";
-
+import Translate from "../components/Translate/Translate";
 export default function Menu() {
 
     interface MenuItem {
@@ -76,6 +76,9 @@ export default function Menu() {
     return (
         <main>
             <Navbar></Navbar>
+            <div className='fixed right-0 bottom-3 z-[999]'>
+                <Translate></Translate>
+            </div>
             <div className="flex flex-col items-left h-auto w-auto">
                 <h1 className="text-8xl p-5">
                     Tacos

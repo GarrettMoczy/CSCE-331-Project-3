@@ -2,6 +2,8 @@ const express = require('express');
 const { Pool } = require('pg');
 const dotenv = require('dotenv').config();
 
+
+
 // Create express app
 const app = express();
 const port = 3000;
@@ -14,18 +16,18 @@ const pool = new Pool({
     database: process.env.PSQL_DATABASE,
     password: process.env.PSQL_PASSWORD,
     port: process.env.PSQL_PORT,
-    ssl: {rejectUnauthorized: false}
+    ssl: { rejectUnauthorized: false }
 });
 
 app.use(express.json())
 app.use(function (req, res, next) {
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3001');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS,SET');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Access-Control-Allow-Headers');
-  next();
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3001');
+    res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS,SET');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Access-Control-Allow-Headers');
+    next();
 });
 
-process.on('SIGINT', function() {
+process.on('SIGINT', function () {
     pool.end();
     console.log('Application successfully shutdown');
     process.exit(0);
@@ -39,9 +41,9 @@ app.get('/menu_items', (req, res) => {
         .then((query_res) => {
             if (query_res.rows.length === 0) {
                 res.status(404).json({ error: 'No menu items found' });
-            } 
+            }
             else {
-              res.json(query_res.rows);
+                res.json(query_res.rows);
             }
         })
         .catch((error) => {
@@ -56,9 +58,9 @@ app.get('/ingredients', (req, res) => {
         .then((query_res) => {
             if (query_res.rows.length === 0) {
                 res.status(404).json({ error: 'No menu items found' });
-            } 
+            }
             else {
-              res.json(query_res.rows);
+                res.json(query_res.rows);
             }
         })
         .catch((error) => {
@@ -73,9 +75,9 @@ app.get('/drinks', (req, res) => {
         .then((query_res) => {
             if (query_res.rows.length === 0) {
                 res.status(404).json({ error: 'No menu items found' });
-            } 
+            }
             else {
-              res.json(query_res.rows);
+                res.json(query_res.rows);
             }
         })
         .catch((error) => {
@@ -86,35 +88,36 @@ app.get('/drinks', (req, res) => {
 
 //---------------Creating Options---------------//
 
-app.post('/new_menu_option', (req,res) => {
-    const {name, price, ingredients} = req.body;
+app.post('/new_menu_option', (req, res) => {
+    const { name, price, ingredients } = req.body;
     console.log(req.body);
     pool
-        .query("SELECT new_menu_option($1, $2, $3)",[name, parseFloat(price), ingredients])  
+        .query("SELECT new_menu_option($1, $2, $3)", [name, parseFloat(price), ingredients])
         .then(response => {
             res.status(200).send(response);
-        })  
+        })
 })
 
-app.post('/new_add_on', (req,res) => {
-    const {name, stock, price, minStock} = req.body;
+app.post('/new_add_on', (req, res) => {
+    const { name, stock, price, minStock } = req.body;
     console.log(req.body);
     pool
-        .query("SELECT new_ingredient($1, $2, $3, $4)",[name, Number(stock), parseFloat(price), Number(minStock)])  
+        .query("SELECT new_ingredient($1, $2, $3, $4)", [name, Number(stock), parseFloat(price), Number(minStock)])
         .then(response => {
             res.status(200).send(response);
-        })  
+        })
 })
 
-app.post('/new_drink', (req,res) => {
-    const {size, price} = req.body;
+app.post('/new_drink', (req, res) => {
+    const { size, price } = req.body;
     console.log(req.body);
     pool
-        .query("SELECT new_drink_size($1, $2)",[size, parseFloat(price)])  
+        .query("SELECT new_drink_size($1, $2)", [size, parseFloat(price)])
         .then(response => {
             res.status(200).send(response);
-        })  
+        })
 })
+
 
 app.post('/new_order', (req, res) => {
 
@@ -133,63 +136,63 @@ app.post('/new_order', (req, res) => {
             console.error('Error executing the query:', error);
             res.status(500).json({ error: error.message });
         });
-}); 
+});
 
 //order id string array menu items string array drink items string array add ons
 //---------------Deleting Options---------------//
 
-app.delete('/delete_drink', (req,res) => {
-    const {name} = req.body;
+app.delete('/delete_drink', (req, res) => {
+    const { name } = req.body;
     console.log(req.body);
     pool
-        .query("SELECT delete_drink($1)",[name])  
+        .query("SELECT delete_drink($1)", [name])
         .then(response => {
             res.status(200).send(response);
-        })  
+        })
 })
 
-app.delete('/delete_menu_item', (req,res) => {
-    const {name} = req.body;
+app.delete('/delete_menu_item', (req, res) => {
+    const { name } = req.body;
     console.log(req.body);
     pool
-        .query("SELECT delete_menu_item($1)",[name])  
+        .query("SELECT delete_menu_item($1)", [name])
         .then(response => {
             res.status(200).send(response);
-        })  
+        })
 })
 
-app.delete('/delete_ingredient', (req,res) => {
-    const {name} = req.body;
+app.delete('/delete_ingredient', (req, res) => {
+    const { name } = req.body;
     console.log(req.body);
     pool
-        .query("SELECT delete_ingredient($1)",[name])  
+        .query("SELECT delete_ingredient($1)", [name])
         .then(response => {
             res.status(200).send(response);
-        })  
+        })
 })
 
 //---------------Update Options---------------//
-app.put('/change_stock', (req,res) => {
-    const {name, stock} = req.body;
+app.put('/change_stock', (req, res) => {
+    const { name, stock } = req.body;
     console.log(req.body);
     pool
         .query("SELECT update_stock($1,$2)", [name, stock])
         .then(response => {
             res.status(200).send(response);
-        })  
+        })
 })
 
-app.put('/change_price', (req,res) => {
-    const {name, price} = req.body;
+app.put('/change_price', (req, res) => {
+    const { name, price } = req.body;
     console.log(req.body);
     pool
         .query("UPDATE menu_item SET price = ($2) WHERE name = ($1)", [name, price])
         .then(response => {
             res.status(200).send(response);
-        })  
+        })
 })
 
-    
+
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
 });

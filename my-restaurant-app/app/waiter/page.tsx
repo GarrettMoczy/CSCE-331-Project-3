@@ -1,8 +1,8 @@
 'use client'
 import MenuItemComp from "../components/MenuItemComponent/MenuItemComponent";
 import React, { useState, useEffect } from 'react'
-
-
+import Translate from "../components/Translate/Translate";
+import Navbar from "../components/Navbar/Navbar";
 export default function Menu() {
 
     interface MenuItem {
@@ -44,6 +44,8 @@ export default function Menu() {
 
     return (
         <main className="flex flex-col items-center justify-between p-2">
+            <Translate></Translate>
+            <Navbar></Navbar>
             <div className="ingredientTabel flex-col justify-center items-center border-rose-700 border-4 h-full w-full overflow-auto rounded-xl">
                 {MenuItems.map((MenuItem, index) => (
                     <MenuItemComp
