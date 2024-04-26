@@ -9,9 +9,6 @@ export default function Home() {
             <Navbar /> 
             <HeroSection />
             <Description />
-            <div>
-                Paco Paco mfers
-            </div>
         </main>
     );
 }
