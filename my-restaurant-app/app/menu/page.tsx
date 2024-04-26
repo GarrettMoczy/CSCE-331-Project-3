@@ -77,7 +77,9 @@ export default function Menu() {
         <main>
             <Navbar></Navbar>
             <div className='fixed right-0 bottom-3 z-[999]'>
+            <div className='fixed right-0 bottom-3 z-[999] p-4 bg-white rounded-lg'>
                 <Translate></Translate>
+            </div>
             </div>
             <div className="flex flex-col items-left h-auto w-auto">
                 <h1 className="text-8xl p-5">

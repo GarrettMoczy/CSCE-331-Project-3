@@ -8,7 +8,10 @@ export default function Home() {
     return (
         <main>
             <div className='fixed right-0 bottom-3 z-[999]'>
+            <div className='fixed right-0 bottom-3 z-[999] p-4 bg-white rounded-lg'>
                 <Translate></Translate>
+            </div>
+
             </div>
 
             <Navbar />

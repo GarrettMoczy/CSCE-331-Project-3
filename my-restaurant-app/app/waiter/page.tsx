@@ -44,7 +44,9 @@ export default function Menu() {
 
     return (
         <main className="flex flex-col items-center justify-between p-2">
-            <Translate></Translate>
+            <div className='fixed right-0 bottom-3 z-[999] p-4 bg-white rounded-lg'>
+                <Translate></Translate>
+            </div>
             <Navbar></Navbar>
             <div className="ingredientTabel flex-col justify-center items-center border-rose-700 border-4 h-full w-full overflow-auto rounded-xl">
                 {MenuItems.map((MenuItem, index) => (
