@@ -1,6 +1,8 @@
 const express = require('express');
 const { Pool } = require('pg');
 const dotenv = require('dotenv').config();
+const requestIp = require('request-ip');
+const axios = require('axios');
 
 // Create express app
 const app = express();
@@ -18,6 +20,7 @@ const pool = new Pool({
 });
 
 app.use(express.json())
+app.use(requestIp.mw());
 app.use(function (req, res, next) {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3001');
   res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS,SET');
@@ -190,6 +193,45 @@ app.put('/change_price', (req,res) => {
 })
 
     
+
+
+
+//---------------Temperature option---------------//
+const OPENWEATHERMAP_API_KEY = '41f500e976a7a9d3a938ab703c42c369';
+
+// Function to fetch temperature based on IP address
+async function getTemperatureByIP(ipAddress) {
+    try {
+      // Fetch location information based on IP address
+      console.log('Client IP Address:', ipAddress);
+      const locationResponse = await axios.get(`http://ip-api.com/json/${ipAddress}`);
+      const { city, country } = locationResponse.data;
+
+      // Fetch weather information based on location
+      const weatherResponse = await axios.get(`http://api.openweathermap.org/data/2.5/weather?q=${city},${country}&appid=${OPENWEATHERMAP_API_KEY}&units=metric`);
+      const { main: { temp } } = weatherResponse.data;
+  
+      return temp;
+    } catch (error) {
+      console.error('Failed to fetch weather data:', error);
+      throw new Error('Failed to fetch weather data');
+    }
+  }
+  
+  app.get('/temperature', async (req, res) => {
+    const ipAddress = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    console.log('Client IP Address:', ipAddress);
+  
+    try {
+      const temperature = await getTemperatureByIP(ipAddress);
+      res.json({ temperature });
+    } catch (error) {
+      console.error('Failed to fetch temperature:', error);
+      res.status(500).json({ error: error.message });
+    }
+  });
+
+
 app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`);
+    console.log(`Server running on port ${port}`);
 });

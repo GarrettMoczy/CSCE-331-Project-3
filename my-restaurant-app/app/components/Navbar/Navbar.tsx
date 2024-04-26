@@ -3,13 +3,14 @@ import './Navbar.css';
 import Modal from "../CartModal/CartModal";
 import {useState, useEffect} from "react";
 import { GoogleLogin, GoogleLogout } from 'react-google-login';
-
+import axios from 'axios';
 import {gapi} from 'gapi-script';
 
 
 const Navbar: React.FC = () => {
   const [openModal, setOpenModal] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [temperature, setTemperature] = useState(null);
 
   useEffect(() => {
     function start(){
@@ -31,7 +32,8 @@ const onFailure = (response: any) => {
     // console.log(response);
     setIsLoggedIn(false);
 }
-  
+
+
 
   return (
     <div>
@@ -53,6 +55,7 @@ const onFailure = (response: any) => {
                 buttonText="Login"
                 onSuccess={onSuccess}
                 onFailure={onFailure}
+                hostedDomain='tamu.edu'
                 cookiePolicy={'single_host_origin'}
                 isSignedIn={true}
               />
