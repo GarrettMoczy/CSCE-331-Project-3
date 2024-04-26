@@ -5,6 +5,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import CartItem from "../MenuItemComponent/CartItemComponent";
 import { format } from "date-fns";
+import "./table.css"
 
 interface Table {
     col1: any;
@@ -24,6 +25,8 @@ export default function CreateDrink(){
     const[col2, setCol2] = useState("");
     const[col3, setCol3] = useState("");
 
+    const[tableStatus, setTableStatus] = useState(true);
+
 
     const changeFun = (e: any) => {
         setFun(e.target.value);
@@ -42,18 +45,21 @@ export default function CreateDrink(){
             setCol2("Times sold");
             setCol3("");
             salesReport(startFormatted,endFormatted);
+            setTableStatus(false);
         }
         if(fun == "Together") {
             setCol1("First item");
             setCol2("Second item");
             setCol3("Times together")
             sellsTogether(startFormatted,endFormatted);
+            setTableStatus(false);
         }
         if(fun == "Excess") {
             setCol1("Ingredients");
             setCol2("");
             setCol3("");
             excessReport(startFormatted,endFormatted);
+            setTableStatus(false);
         }
     }
 
@@ -138,9 +144,9 @@ export default function CreateDrink(){
 
     return(
         <div>
-            <div className='flex flex-col relative flex-wrap border-zinc-700 border-2 bg-zinc-900 rounded-lg overflow-off m-5 w-1/2 h-1/2'>
+            <div className='flex flex-col relative flex-wrap border-zinc-700 border-2 bg-zinc-900 rounded-lg overflow-off m-5 w-20/21 h-1/2'>
                 <div id="table">
-                    <table>
+                    <table hidden={tableStatus}>
                         <thead>
                             <tr>
                                 <th>{col1} </th>
@@ -162,9 +168,13 @@ export default function CreateDrink(){
                         </tbody>
                     </table>
                 </div>
+                <br />
                 <div id="functionality">
-                    <DatePicker dateFormat="yyyy-mm-dd" selectsStart selected={startDate} onChange={(date: any) => setStartDate(date)} />
-                    <DatePicker dateFormat="yyyy-mm-dd" selectsEnd selected={endDate} onChange={(date: any) => setEndDate(date)} endDate={endDate} startDate={startDate} minDate={startDate} />
+                    Start Date:
+                    <DatePicker className="flex flex-col relative flex-wrap border-zinc-700 border-2 bg-zinc-900 rounded-lg overflow-off m-5 w-52" dateFormat="yyyy-MM-dd" selectsStart selected={startDate} onChange={(date: any) => setStartDate(date)} />
+                    <br />
+                    End Date:
+                    <DatePicker className="flex flex-col relative flex-wrap border-zinc-700 border-2 bg-zinc-900 rounded-lg overflow-off m-5 w-52" dateFormat="yyyy-MM-dd" selectsEnd selected={endDate} onChange={(date: any) => setEndDate(date)} endDate={endDate} startDate={startDate} minDate={startDate} />
                     <select onChange={changeFun} className="flex flex-col relative flex-wrap border-zinc-700 border-2 bg-zinc-900 rounded-lg overflow-off m-5 w-52">
                         <option value={"Sales"}>Sales Report</option>
                         <option value={"Together"}>Sells Together</option>
