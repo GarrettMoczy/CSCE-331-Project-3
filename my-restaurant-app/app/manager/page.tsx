@@ -204,7 +204,7 @@ export default function Manager() {
     return (
         <main>
             <Navbar></Navbar>
-            <div>
+            <div className='grid grid-cols-4 gap-4'>
                 {/* Fix Formatting */}
                 <div id='New Options'>   
                     <br />
@@ -217,6 +217,9 @@ export default function Manager() {
 
                 {/* Fix Formatting */}
                 <div id='Delete Options'>
+                    <br />
+                    <br />
+                    <br /> 
                     <DeleteFunction name="Delete Ingredient" items = {ingredientList} fun = {deleteIngredient} />
                     <DeleteFunction name="Delete Drink" items = {drinkList} fun = {deleteDrink} />
                     <DeleteFunction name="Delete Menu Item" items = {menuList} fun = {deleteMenuItem} />
@@ -224,11 +227,17 @@ export default function Manager() {
                     
                 {/* Fix Formatting */}    
                 <div id='Changing'>
+                    <br />
+                    <br />
+                    <br /> 
                     <IncreaseStockFunction name="Increase Ingredient Stock" items={ingredientList} fun={increaseStock} />
                     <ChangePriceFunction name="Change Menu Item Price" items={menuList} fun={changePrice} />
                 </div>
                 {/* Fix Formatting */} 
                 <div id='Tables' className=''>
+                    <br />
+                    <br />
+                    <br /> 
                     <TableFunction></TableFunction>
                 </div>
             </div>
