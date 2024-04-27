@@ -2,6 +2,7 @@
 import MenuItemComp from "../components/MenuItemComponent/MenuItemComponent";
 import DrinkItemComp from "../components/DrinkItemComponent/DrinkItemComponent";
 import React, { useState, useEffect } from 'react'
+import Translate from "../components/Translate/Translate";
 import Navbar from "../components/Navbar/Navbar";
 
 export default function Menu() {
@@ -144,6 +145,7 @@ export default function Menu() {
     }
    
     return (
+
         <main>
             <Navbar></Navbar>
             <div className="flex flex-col items-left h-auto w-auto pt-20">
