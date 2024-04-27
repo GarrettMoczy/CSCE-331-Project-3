@@ -35,6 +35,9 @@ process.on('SIGINT', function () {
 
 app.set("view engine", "ejs");
 
+//---------------Getting Options---------------//
+
+
 app.get('/menu_items', (req, res) => {
     pool
         .query('SELECT * FROM menu_item')
@@ -54,7 +57,7 @@ app.get('/menu_items', (req, res) => {
 
 app.get('/ingredients', (req, res) => {
     pool
-        .query('SELECT name FROM ingredients')
+        .query('SELECT * FROM ingredients')
         .then((query_res) => {
             if (query_res.rows.length === 0) {
                 res.status(404).json({ error: 'No menu items found' });
@@ -71,7 +74,7 @@ app.get('/ingredients', (req, res) => {
 
 app.get('/drinks', (req, res) => {
     pool
-        .query('SELECT size FROM drinks')
+        .query('SELECT * FROM drinks')
         .then((query_res) => {
             if (query_res.rows.length === 0) {
                 res.status(404).json({ error: 'No menu items found' });
@@ -86,23 +89,45 @@ app.get('/drinks', (req, res) => {
         });
 });
 
+
+app.get('/menu_item_ingredients', (req, res) => {
+    pool
+        .query('SELECT menu_item.id as item_id, ingredients.name_ing, ingredients.id, ingredients.add_on_price, ingredients.valid_add_on FROM menu_item JOIN menu_item_ingredient ON (menu_item.id = menu_item_ingredient.menu_id) JOIN ingredients ON (menu_item_ingredient.ingredient_id = ingredients.id) LIMIT 100')
+        .then((query_res) => {
+            if (query_res.rows.length === 0) {
+                res.status(404).json({ error: 'No menu items found' });
+            } 
+            else {
+                res.json(query_res.rows);
+            }
+        })
+        .catch((error) => {
+            console.error('Error executing the SQL query:', error);
+            res.status(500).json({ error: error.message });
+        });
+});
+
 //---------------Creating Options---------------//
 
-app.post('/new_menu_option', (req, res) => {
-    const { name, price, ingredients } = req.body;
+
+app.post('/new_menu_option', (req,res) => {
+    const {name, price, calories, ingredients} = req.body;
     console.log(req.body);
     pool
-        .query("SELECT new_menu_option($1, $2, $3)", [name, parseFloat(price), ingredients])
+        .query("SELECT new_menu_option($1, $2, $3, $4)",[name, parseFloat(price), parseFloat(calories), ingredients])  
         .then(response => {
             res.status(200).send(response);
         })
 })
 
-app.post('/new_add_on', (req, res) => {
-    const { name, stock, price, minStock } = req.body;
+
+app.post('/new_add_on', (req,res) => {
+    const {name, stock, price, minStock, addOn} = req.body;
     console.log(req.body);
     pool
-        .query("SELECT new_ingredient($1, $2, $3, $4)", [name, Number(stock), parseFloat(price), Number(minStock)])
+        .query("SELECT new_ingredient($1, $2, $3, $4, $5)",[name, Number(stock), parseFloat(price), Number(minStock), addOn])  
+
+  
         .then(response => {
             res.status(200).send(response);
         })
@@ -119,24 +144,29 @@ app.post('/new_drink', (req, res) => {
 })
 
 
-app.post('/new_order', (req, res) => {
 
-    const { orderId, menuItems, drinkItems, addOns } = req.body;
+app.post('/new_order', async (req, res) => {
+    pool 
 
-    console.log(req.body);
+    const {cartItemNames, drinkItems, addOns } = req.body;
 
-    pool
-        .query("SELECT new_order($1, $2, $3, $4)", [orderId, menuItems, drinkItems, addOns])
-        .then(response => {
 
-            res.status(200).send(response);
-        })
-        .catch(error => {
+    let orderId;
+    
+    const orderIdQuery = "SELECT new_order(1)"
+    try{
+        const client = await pool.connect();
+        const result = await client.query(orderIdQuery)
+        orderId = result.rows[0].new_order
+        const result2 = await client.query("SELECT complete_order($1, $2, $3, $4)", [orderId, cartItemNames, drinkItems, addOns]);
+        res.json({orderId: orderId})
+    }
+    catch(error){
+        console.error("Error creating new order", error)
+        res.status(500).json({error: error.message})
+    }
+})
 
-            console.error('Error executing the query:', error);
-            res.status(500).json({ error: error.message });
-        });
-});
 
 //order id string array menu items string array drink items string array add ons
 //---------------Deleting Options---------------//
@@ -176,23 +206,67 @@ app.put('/change_stock', (req, res) => {
     const { name, stock } = req.body;
     console.log(req.body);
     pool
-        .query("SELECT update_stock($1,$2)", [name, stock])
+        .query("SELECT update_stock($1,$2)", [name, Number(stock)])
         .then(response => {
             res.status(200).send(response);
         })
 })
 
-app.put('/change_price', (req, res) => {
-    const { name, price } = req.body;
+<
+app.put('/change_price', (req,res) => {
+    const {name, price} = req.body;
+    const queryPrompt = "UPDATE menu_item SET price = " + price + " WHERE name = " + "\'" + name + "\'";
+    console.log(queryPrompt);
+    pool
+        .query(queryPrompt)
+        .then(response => {
+            res.status(200).send(response);
+        })
+})
+
+
+//---------------Getting Tables---------------//
+// Format: select sales_report('2023-06-13', '2023-07-13');
+app.put('/sales_report', (req, res) => {
+    const {strDate, enDate} = req.body;
+    const queryPrompt = "select * from sales_report(" + "\'" + strDate + "\'" + "," + "\'" + enDate + "\'" + ")";
     console.log(req.body);
     pool
-        .query("UPDATE menu_item SET price = ($2) WHERE name = ($1)", [name, price])
+        .query(queryPrompt)
         .then(response => {
-            res.status(200).send(response);
-        })
-})
+            console.log(response);
+            res.json(response.rows);
+        })  
+});
+
+app.put('/excess_report', (req, res) => {
+    const {strDate, enDate} = req.body;
+    const queryPrompt = "select * from excess_report(" + "\'" + strDate + "\'" + "," + "\'" + enDate + "\'" + ")";
+    console.log(req.body);
+    pool
+        .query(queryPrompt)
+        .then(response => {
+            console.log(response);
+            res.json(response.rows);
+        })  
+});
+
+app.put('/sells_together', (req, res) => {
+    const {strDate, enDate} = req.body;
+    const queryPrompt = "select * from sells_together(" + "\'" + strDate + "\'" + "," + "\'" + enDate + "\'" + ")";
+    console.log(req.body);
+    pool
+        .query(queryPrompt)
+        .then(response => {
+            console.log(response);
+            res.json(response.rows);
+        })  
+});
 
 
+
+//---------------Temperature option---------------//
+    
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
 });

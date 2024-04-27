@@ -1,38 +1,73 @@
 'use client'
 import MenuItemComp from "../components/MenuItemComponent/MenuItemComponent";
-import CartItemComp from "../components/MenuItemComponent/CartItemComponent"
+import DrinkItemComp from "../components/DrinkItemComponent/DrinkItemComponent";
 import React, { useState, useEffect } from 'react'
 import Navbar from "../components/Navbar/Navbar";
 import Translate from "../components/Translate/Translate";
 export default function Menu() {
+    enum ItemType {
+        Drink = 1,
+        Taco = 2,
+        AddOn = 3
+    }
 
     interface MenuItem {
         name: string;
         price: string;
         altTxt: string;
         calorie: number;
-        thisOnClick: () => void;
+        type: ItemType;
+        id: number;
+        // thisOnClick: () => void;
     }
 
     interface CartItem {
         name: string;
         price: string;
+        type: ItemType;
+    }
+
+    interface DrinkItem{
+        size: string;
+        price: number;
+        name: string;
+        altTxt: string;
+        calorie: string;
+        type: ItemType;
+    }
+
+    interface IngredientItem {
+        name: string,
+        id: number,
+        price: number
     }
     
     
     const [MenuItems, setMenuItems] = useState<MenuItem[]>([]);
-    const [CartItems, setCartItems] = useState<CartItem[]>([]);
+    const [DrinkItems, setDrinkItems] = useState<DrinkItem[]>([]);
+    const [includedIngredients, setIncludedIngredients] = useState<IngredientItem[][]>([])
+    const [allIngredients, setAllIngredients] = useState<IngredientItem[]>([])
     
     useEffect(() => {
+        getMenuItems();
+        getDrinks();
         getIngredients();
-    });
+    }, []);
 
     function addToCart(item: any) {
-        const Cart: CartItem = ({name: item.name, price: item.price});
-        CartItems.push(Cart);
+        const newItem: CartItem = { name: item.name, price: item.price, type: item.type};
+        let cart: CartItem[] = [];
+        if (localStorage.getItem("cart") !== null) {
+            cart = JSON.parse(localStorage.getItem("cart") as string);
+        }
+       
+        cart.push(newItem);
+        const testVar = JSON.stringify(cart);
+        console.log(testVar);
+        localStorage.setItem("cart", testVar);
     }
 
-    function getIngredients(){
+    function getMenuItems(){
         fetch(`http://localhost:3000/menu_items`) // Replace with the actual API endpoint URL
             .then((response) => {
                 if (!response.ok) {
@@ -47,32 +82,67 @@ export default function Menu() {
                     price: item.price,
                     altTxt: "",
                     calorie: item.calorie,
-                    thisOnClick: () => {addToCart(item)}
+                    type: ItemType.Taco,
+                    id: item.id
                 }));
                 setMenuItems(menuData);
         })
     }
+    
 
-    function checkOut(CartItems : any[]) {
-        fetch('http://localhost:3000/new_order', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(CartItems)
+    function getDrinks(){
+        fetch(`http://localhost:3000/drinks`) // Replace with the actual API endpoint URL
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then((data) => {
+                // Process the data received from the API and store it in the state   
+                const drinkData: DrinkItem[] = data.map((item: any) => ({
+                    size: item.size,
+                    price: item.price,
+                    name: "",
+                    type: ItemType.Drink,
+                    calorie: item.calories
+                }));
+                setDrinkItems(drinkData);
         })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to send order');
-            }
-            CartItems = [];
-        })
-        .catch(error => {
-            CartItems = []
-        })
-        setCartItems([]);
     }
 
+    function getIngredients() {
+        fetch('http://localhost:3000/menu_item_ingredients') 
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then((data) => {
+                const ingredientArray: IngredientItem[][] = [];
+                const allIngredientsArray: IngredientItem[]= [];
+                data.forEach((item: any) => {
+                    let ingredient: IngredientItem = {name: item.name_ing, id: item.id, price: item.add_on_price}
+                    if (!ingredientArray[item.item_id]) {
+                        ingredientArray[item.item_id] = [];
+                    }
+                    ingredientArray[item.item_id].push(ingredient);
+                    if(item.valid_add_on) {
+                        allIngredientsArray[item.id] = ingredient;
+                    }
+                });
+                setIncludedIngredients(ingredientArray)
+                setAllIngredients(allIngredientsArray)
+            })
+    }
+
+    function filterAddOns(includedIngredients: IngredientItem[], allIngredients: IngredientItem[]): IngredientItem[] {
+        return allIngredients.filter((x) => {
+            return !includedIngredients.some((element) => x.id === element.id);
+        });
+    }
+   
     return (
         <main>
             <Navbar></Navbar>
@@ -81,7 +151,9 @@ export default function Menu() {
                 <Translate></Translate>
             </div>
             </div>
-            <div className="flex flex-col items-left h-auto w-auto">
+
+            <div className="flex flex-col items-left h-auto w-auto pt-20">
+
                 <h1 className="text-8xl p-5">
                     Tacos
                 </h1>
@@ -92,26 +164,30 @@ export default function Menu() {
                             name={MenuItem.name}
                             price={MenuItem.price}
                             calorie={MenuItem.calorie}
-                            thisOnClick={MenuItem.thisOnClick}
+                            thisOnClick={() => addToCart(MenuItem)}
+                            includedIngredients={includedIngredients?.at(MenuItem.id) || []}
+                            addOns = {filterAddOns(includedIngredients?.at(MenuItem.id) || [], allIngredients)}
                             altTxt={MenuItem.altTxt}
+                            id={MenuItem.id}
                         />
                     ))}
                 </div>
-                <div className="flex flex-col items-center h-screen bg-slate-100 w-20lvh max-w-md min-w-56  font-mono text-black overflow-auto ">
-                    Cart
-                    {CartItems.map((CartItem, index) => (
-                        <CartItemComp
+                <h1 className="text-8xl p-5">
+                    Drinks
+                </h1>
+                <div className="flex flex-row flex-wrap font-bold text-white overflow-off">
+                    {DrinkItems.map((DrinkItem, index) => (
+                        <DrinkItemComp
                             key={index}
-                            name={CartItem.name}
-                            price={CartItem.price}
+                            size={DrinkItem.size}
+                            price={DrinkItem.price}
+                            calorie={DrinkItem.calorie}
+                            thisOnClick= {(item: any) => addToCart(item)}
+                            altTxt={DrinkItem.altTxt}
                         />
                     ))}
-                    </div>
-                    <div className="flex flex-row justify-self-center">
-                        Total: {CartItems.reduce((sum, item) => sum + parseFloat(item.price), 0)}
-                        <button onClick={() => checkOut(CartItems)}className="px-4"> Check out</button>
-                    </div>
                 </div>
+            </div>
         </main>
     );
 }

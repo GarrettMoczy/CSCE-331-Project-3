@@ -9,7 +9,7 @@ export default function CartItem({name, price}: CartItemProps){
     return(
         <div className="flex">
             <div>
-                {name}: {price}
+                {name}: {price}$
             </div>
         </div>
     );
