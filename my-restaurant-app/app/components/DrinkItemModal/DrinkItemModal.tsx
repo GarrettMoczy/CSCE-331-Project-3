@@ -18,7 +18,7 @@ let drinkOptions :string[] = ["Pepsi", "Dr.Pepper","Unsweet Tea","Sweet Tea","St
 function DrinkItemModal({ setOpenModal, price, altTxt, calorie, size, thisOnClick }: ModalItemProps) {
     return (
     <div className="modalBackground">
-        <div className="flex flex-col relative flex-wrap border-zinc-700 border-2 bg-zinc-900 rounded-lg overflow-off w-4/5 h-4/5">
+        <div className="flex flex-col relative border-zinc-700 border-2 bg-zinc-900 rounded-lg w-4/5 h-4/5">
             <div className="header flex flex-row items-center justify-items-center h-28 w-full p-5">
             <img src={"images/drinks/" + size + ".jpg"} className="w-24 pr-5"></img>
                 <div>
@@ -31,7 +31,7 @@ function DrinkItemModal({ setOpenModal, price, altTxt, calorie, size, thisOnClic
                     <button className="text-xl m-5" onClick={()=> setOpenModal(false)}> X </button>
                 </div>
             </div>
-            <div className="flex flex-wrap mt-12 justify-center overflow-auto center">
+            <div className="flex flex-wrap overflow-y-auto relative p-5 justify-center center">
                 {drinkOptions.map((drink,index) => (
                     <DrinkOptionComp
                         key={index}

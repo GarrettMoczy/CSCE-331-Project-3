@@ -17,6 +17,7 @@ export default function Menu() {
         altTxt: string;
         calorie: number;
         type: ItemType;
+        id: number;
         // thisOnClick: () => void;
     }
 
@@ -34,14 +35,23 @@ export default function Menu() {
         calorie: string;
         type: ItemType;
     }
+
+    interface IngredientItem {
+        name: string,
+        id: number,
+        price: number
+    }
     
     
     const [MenuItems, setMenuItems] = useState<MenuItem[]>([]);
     const [DrinkItems, setDrinkItems] = useState<DrinkItem[]>([]);
+    const [includedIngredients, setIncludedIngredients] = useState<IngredientItem[][]>([])
+    const [allIngredients, setAllIngredients] = useState<IngredientItem[]>([])
     
     useEffect(() => {
-        getIngredients();
+        getMenuItems();
         getDrinks();
+        getIngredients();
     }, []);
 
     function addToCart(item: any) {
@@ -53,10 +63,11 @@ export default function Menu() {
        
         cart.push(newItem);
         const testVar = JSON.stringify(cart);
+        console.log(testVar);
         localStorage.setItem("cart", testVar);
     }
 
-    function getIngredients(){
+    function getMenuItems(){
         fetch(`http://localhost:3000/menu_items`) // Replace with the actual API endpoint URL
             .then((response) => {
                 if (!response.ok) {
@@ -71,11 +82,13 @@ export default function Menu() {
                     price: item.price,
                     altTxt: "",
                     calorie: item.calorie,
-                    type: ItemType.Taco
+                    type: ItemType.Taco,
+                    id: item.id
                 }));
                 setMenuItems(menuData);
         })
     }
+    
 
     function getDrinks(){
         fetch(`http://localhost:3000/drinks`) // Replace with the actual API endpoint URL
@@ -98,7 +111,38 @@ export default function Menu() {
         })
     }
 
+    function getIngredients() {
+        fetch('http://localhost:3000/menu_item_ingredients') 
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then((data) => {
+                const ingredientArray: IngredientItem[][] = [];
+                const allIngredientsArray: IngredientItem[]= [];
+                data.forEach((item: any) => {
+                    let ingredient: IngredientItem = {name: item.name_ing, id: item.id, price: item.add_on_price}
+                    if (!ingredientArray[item.item_id]) {
+                        ingredientArray[item.item_id] = [];
+                    }
+                    ingredientArray[item.item_id].push(ingredient);
+                    if(item.valid_add_on) {
+                        allIngredientsArray[item.id] = ingredient;
+                    }
+                });
+                setIncludedIngredients(ingredientArray)
+                setAllIngredients(allIngredientsArray)
+            })
+    }
 
+    function filterAddOns(includedIngredients: IngredientItem[], allIngredients: IngredientItem[]): IngredientItem[] {
+        return allIngredients.filter((x) => {
+            return !includedIngredients.some((element) => x.id === element.id);
+        });
+    }
+   
     return (
         <main>
             <Navbar></Navbar>
@@ -113,8 +157,11 @@ export default function Menu() {
                             name={MenuItem.name}
                             price={MenuItem.price}
                             calorie={MenuItem.calorie}
-                            thisOnClick= {() => addToCart(MenuItem)}
+                            thisOnClick={() => addToCart(MenuItem)}
+                            includedIngredients={includedIngredients?.at(MenuItem.id) || []}
+                            addOns = {filterAddOns(includedIngredients?.at(MenuItem.id) || [], allIngredients)}
                             altTxt={MenuItem.altTxt}
+                            id={MenuItem.id}
                         />
                     ))}
                 </div>

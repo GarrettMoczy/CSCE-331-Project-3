@@ -84,6 +84,24 @@ app.get('/drinks', (req, res) => {
         });
 });
 
+
+app.get('/menu_item_ingredients', (req, res) => {
+    pool
+        .query('SELECT menu_item.id as item_id, ingredients.name_ing, ingredients.id, ingredients.add_on_price, ingredients.valid_add_on FROM menu_item JOIN menu_item_ingredient ON (menu_item.id = menu_item_ingredient.menu_id) JOIN ingredients ON (menu_item_ingredient.ingredient_id = ingredients.id) LIMIT 100')
+        .then((query_res) => {
+            if (query_res.rows.length === 0) {
+                res.status(404).json({ error: 'No menu items found' });
+            } 
+            else {
+                res.json(query_res.rows);
+            }
+        })
+        .catch((error) => {
+            console.error('Error executing the SQL query:', error);
+            res.status(500).json({ error: error.message });
+        });
+});
+
 //---------------Creating Options---------------//
 
 app.post('/new_menu_option', (req,res) => {
@@ -136,7 +154,7 @@ app.post('/new_order', async (req, res) => {
         console.error("Error creating new order", error)
         res.status(500).json({error: error.message})
     }
-}); 
+})
 
 //order id string array menu items string array drink items string array add ons
 //---------------Deleting Options---------------//
