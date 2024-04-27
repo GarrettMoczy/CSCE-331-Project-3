@@ -3,7 +3,7 @@ import MenuItemComp from "../components/MenuItemComponent/MenuItemComponent";
 import DrinkItemComp from "../components/DrinkItemComponent/DrinkItemComponent";
 import React, { useState, useEffect } from 'react'
 import Navbar from "../components/Navbar/Navbar";
-
+import Translate from "../components/Translate/Translate";
 export default function Menu() {
     enum ItemType {
         Drink = 1,
@@ -146,7 +146,14 @@ export default function Menu() {
     return (
         <main>
             <Navbar></Navbar>
+            <div className='fixed right-0 bottom-3 z-[999]'>
+            <div className='fixed right-0 bottom-3 z-[999] p-4 bg-white rounded-lg'>
+                <Translate></Translate>
+            </div>
+            </div>
+
             <div className="flex flex-col items-left h-auto w-auto pt-20">
+
                 <h1 className="text-8xl p-5">
                     Tacos
                 </h1>

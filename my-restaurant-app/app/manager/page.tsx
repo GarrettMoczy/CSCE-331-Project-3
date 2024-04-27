@@ -1,6 +1,9 @@
 'use client'
 import React, { useState, useEffect } from 'react'
 import Navbar from "../components/Navbar/Navbar";
+
+import Modal from './modal';
+import Translate from '../components/Translate/Translate';
 import DeleteFunction from "../components/ManagerComponent/deleteFunction"
 import CreateMenuItemFunction from "../components/ManagerComponent/createMenuItemFunction"
 import CreateDrinkFunction from "../components/ManagerComponent/createDrinkFunction"
@@ -8,6 +11,7 @@ import CreateIngredientFunction from "../components/ManagerComponent/createIngre
 import ChangePriceFunction from "../components/ManagerComponent/changePriceFunction"
 import IncreaseStockFunction from "../components/ManagerComponent/increaseStockFunction"
 import TableFunction from "../components/ManagerComponent/TableFunction"
+
 
 
 
@@ -204,6 +208,13 @@ export default function Manager() {
     return (
         <main>
             <Navbar></Navbar>
+            <div className='fixed right-0 bottom-3 z-[999]'>
+                <Translate></Translate>
+            </div>
+           
+            <div>
+
+
             <div className='grid grid-cols-4 gap-4'>
                 {/* Fix Formatting */}
                 <div id='New Options'>   
