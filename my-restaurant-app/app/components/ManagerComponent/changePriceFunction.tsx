@@ -1,13 +1,13 @@
 "use client"
 import {useState} from "react"
-import Modal from "../ManagerModals/createMenuItemModal";
+import Modal from "../ManagerModals/changePriceModal";
 interface ModalItemProps {
     name: string;
     items: any;
     fun: any;
 }
 
-export default function CreateMenuItem({name, items, fun}: ModalItemProps){
+export default function ChangePriceFunction({name, items, fun}: ModalItemProps){
     const [openModal, setOpenModal] = useState(false);
     return(
         <div>

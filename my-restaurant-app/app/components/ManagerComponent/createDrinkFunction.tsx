@@ -1,13 +1,12 @@
 "use client"
 import {useState} from "react"
-import Modal from "../ManagerModals/createMenuItemModal";
+import Modal from "../ManagerModals/createDrinkModal";
 interface ModalItemProps {
     name: string;
-    items: any;
     fun: any;
 }
 
-export default function CreateMenuItem({name, items, fun}: ModalItemProps){
+export default function CreateDrink({name, fun}: ModalItemProps){
     const [openModal, setOpenModal] = useState(false);
     return(
         <div>
@@ -19,7 +18,6 @@ export default function CreateMenuItem({name, items, fun}: ModalItemProps){
         {openModal && <Modal
                         setOpenModal={setOpenModal}
                         name={name}
-                        items={items}
                         fun={fun} />}
         </div>
     );

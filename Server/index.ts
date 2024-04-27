@@ -2,6 +2,7 @@ const express = require('express');
 const { Pool } = require('pg');
 const dotenv = require('dotenv').config();
 
+
 // Create express app
 const app = express();
 const port = 3000;
@@ -33,6 +34,9 @@ process.on('SIGINT', function() {
 
 app.set("view engine", "ejs");
 
+//---------------Getting Options---------------//
+
+
 app.get('/menu_items', (req, res) => {
     pool
         .query('SELECT * FROM menu_item')
@@ -58,7 +62,7 @@ app.get('/ingredients', (req, res) => {
                 res.status(404).json({ error: 'No menu items found' });
             } 
             else {
-              res.json(query_res.rows);
+                res.json(query_res.rows);
             }
         })
         .catch((error) => {
@@ -115,10 +119,10 @@ app.post('/new_menu_option', (req,res) => {
 })
 
 app.post('/new_add_on', (req,res) => {
-    const {name, stock, price, minStock} = req.body;
+    const {name, stock, price, minStock, addOn} = req.body;
     console.log(req.body);
     pool
-        .query("SELECT new_ingredient($1, $2, $3, $4)",[name, Number(stock), parseFloat(price), Number(minStock)])  
+        .query("SELECT new_ingredient($1, $2, $3, $4, $5)",[name, Number(stock), parseFloat(price), Number(minStock), addOn])  
         .then(response => {
             res.status(200).send(response);
         })  
@@ -194,7 +198,7 @@ app.put('/change_stock', (req,res) => {
     const {name, stock} = req.body;
     console.log(req.body);
     pool
-        .query("SELECT update_stock($1,$2)", [name, stock])
+        .query("SELECT update_stock($1,$2)", [name, Number(stock)])
         .then(response => {
             res.status(200).send(response);
         })  
@@ -202,13 +206,52 @@ app.put('/change_stock', (req,res) => {
 
 app.put('/change_price', (req,res) => {
     const {name, price} = req.body;
-    console.log(req.body);
+    const queryPrompt = "UPDATE menu_item SET price = " + price + " WHERE name = " + "\'" + name + "\'";
+    console.log(queryPrompt);
     pool
-        .query("UPDATE menu_item SET price = ($2) WHERE name = ($1)", [name, price])
+        .query(queryPrompt)
         .then(response => {
             res.status(200).send(response);
         })  
 })
+
+//---------------Getting Tables---------------//
+// Format: select sales_report('2023-06-13', '2023-07-13');
+app.put('/sales_report', (req, res) => {
+    const {strDate, enDate} = req.body;
+    const queryPrompt = "select * from sales_report(" + "\'" + strDate + "\'" + "," + "\'" + enDate + "\'" + ")";
+    console.log(req.body);
+    pool
+        .query(queryPrompt)
+        .then(response => {
+            console.log(response);
+            res.json(response.rows);
+        })  
+});
+
+app.put('/excess_report', (req, res) => {
+    const {strDate, enDate} = req.body;
+    const queryPrompt = "select * from excess_report(" + "\'" + strDate + "\'" + "," + "\'" + enDate + "\'" + ")";
+    console.log(req.body);
+    pool
+        .query(queryPrompt)
+        .then(response => {
+            console.log(response);
+            res.json(response.rows);
+        })  
+});
+
+app.put('/sells_together', (req, res) => {
+    const {strDate, enDate} = req.body;
+    const queryPrompt = "select * from sells_together(" + "\'" + strDate + "\'" + "," + "\'" + enDate + "\'" + ")";
+    console.log(req.body);
+    pool
+        .query(queryPrompt)
+        .then(response => {
+            console.log(response);
+            res.json(response.rows);
+        })  
+});
 
 
 
