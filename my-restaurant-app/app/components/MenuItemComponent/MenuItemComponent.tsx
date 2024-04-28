@@ -15,17 +15,18 @@ interface MenuItemProps {
     id: number;
     includedIngredients: IngredientItem[];
     addOns: IngredientItem[];
-    thisOnClick: () => void;
+    thisOnClick: (item:any) => void;
+    setCartModal: any;
 }
 
 
-export default function MenuItem({name, price, altTxt, calorie, id, includedIngredients, addOns,  thisOnClick}: MenuItemProps){
+export default function MenuItem({name, price, altTxt, calorie, id, includedIngredients, addOns,  thisOnClick, setCartModal}: MenuItemProps){
     const [openModal, setOpenModal] = useState(false);
     return(
         <div>
             <div className='flex flex-col relative flex-wrap border-zinc-700 border-2 bg-zinc-900 rounded-lg overflow-off m-5 w-52 items-center'>
                 <div className="flex flex-col px-5 pt-5">
-                    <img src={"images/tacos/" + name + ".jpg"} className="w-40 h-50"></img>
+                    <img src={"images/tacos/" + name + ".jpg"} className="w-40 h-50" alt={name}></img>
                     <div className='font-bold text-white'>
                         {name}
                     </div>
@@ -46,7 +47,9 @@ export default function MenuItem({name, price, altTxt, calorie, id, includedIngr
                         includedIngredients={includedIngredients}
                         addOns={addOns}
                         id={id}
-                        thisOnClick= {thisOnClick} />}
+                        thisOnClick= {thisOnClick} 
+                        setCartModal={setCartModal}
+                        />}
         </div>
     );
 }

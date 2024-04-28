@@ -6,9 +6,13 @@ import { GoogleLogin, GoogleLogout } from 'react-google-login';
 import axios from 'axios';
 import {gapi} from 'gapi-script';
 
+interface modalControl {
+  setOpenModal: any;
+  openModal: boolean;
+}
 
-const Navbar: React.FC = () => {
-  const [openModal, setOpenModal] = useState(false);
+
+const Navbar: React.FC<modalControl> = ({setOpenModal, openModal}: modalControl) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [temperature, setTemperature] = useState(null);
 

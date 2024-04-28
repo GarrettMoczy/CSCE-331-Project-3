@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react'
 import Navbar from "../components/Navbar/Navbar";
 
-import Modal from './modal';
 import Translate from '../components/Translate/Translate';
 import DeleteFunction from "../components/ManagerComponent/deleteFunction"
 import CreateMenuItemFunction from "../components/ManagerComponent/createMenuItemFunction"
@@ -211,10 +210,6 @@ export default function Manager() {
             <div className='fixed right-0 bottom-3 z-[999]'>
                 <Translate></Translate>
             </div>
-           
-            <div>
-
-
             <div className='grid grid-cols-4 gap-4'>
                 {/* Fix Formatting */}
                 <div id='New Options'>   

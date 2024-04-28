@@ -8,7 +8,6 @@ export default function Menu() {
     enum ItemType {
         Drink = 1,
         Taco = 2,
-        AddOn = 3
     }
 
     interface MenuItem {
@@ -25,6 +24,8 @@ export default function Menu() {
         name: string;
         price: string;
         type: ItemType;
+        addedItems: IngredientItem[];
+        removedItems: IngredientItem[];
     }
 
     interface DrinkItem{
@@ -47,6 +48,7 @@ export default function Menu() {
     const [DrinkItems, setDrinkItems] = useState<DrinkItem[]>([]);
     const [includedIngredients, setIncludedIngredients] = useState<IngredientItem[][]>([])
     const [allIngredients, setAllIngredients] = useState<IngredientItem[]>([])
+    const [openModal, setOpenModal] = useState(false)
     
     useEffect(() => {
         getMenuItems();
@@ -54,17 +56,22 @@ export default function Menu() {
         getIngredients();
     }, []);
 
-    function addToCart(item: any) {
-        const newItem: CartItem = { name: item.name, price: item.price, type: item.type};
+    useEffect(() => {
+
+    }), [openModal]
+
+    const addToCart = (item: any) => (removedItems: IngredientItem[]) => (addedItems: IngredientItem[]) => {
+        const newItem: CartItem = { name: item.name, price: item.price, type: item.type, addedItems: addedItems,removedItems: removedItems };
         let cart: CartItem[] = [];
         if (localStorage.getItem("cart") !== null) {
             cart = JSON.parse(localStorage.getItem("cart") as string);
         }
-       
+
         cart.push(newItem);
         const testVar = JSON.stringify(cart);
         console.log(testVar);
         localStorage.setItem("cart", testVar);
+        console.log(testVar)
     }
 
     function getMenuItems(){
@@ -145,11 +152,11 @@ export default function Menu() {
    
     return (
         <main>
-            <Navbar></Navbar>
-            <div className='fixed right-0 bottom-3 z-[999]'>
-            <div className='fixed right-0 bottom-3 z-[999] p-4 bg-white rounded-lg'>
+            <Navbar
+                openModal={openModal}
+                setOpenModal={setOpenModal}/>
+            <div className='fixed right-0 bottom-0 z-[999]'>
                 <Translate></Translate>
-            </div>
             </div>
 
             <div className="flex flex-col items-left h-auto w-auto pt-20">
@@ -164,11 +171,12 @@ export default function Menu() {
                             name={MenuItem.name}
                             price={MenuItem.price}
                             calorie={MenuItem.calorie}
-                            thisOnClick={() => addToCart(MenuItem)}
+                            thisOnClick={addToCart(MenuItem)}
                             includedIngredients={includedIngredients?.at(MenuItem.id) || []}
                             addOns = {filterAddOns(includedIngredients?.at(MenuItem.id) || [], allIngredients)}
                             altTxt={MenuItem.altTxt}
                             id={MenuItem.id}
+                            setCartModal={setOpenModal}
                         />
                     ))}
                 </div>
@@ -182,8 +190,9 @@ export default function Menu() {
                             size={DrinkItem.size}
                             price={DrinkItem.price}
                             calorie={DrinkItem.calorie}
-                            thisOnClick= {(item: any) => addToCart(item)}
+                            thisOnClick= {addToCart}
                             altTxt={DrinkItem.altTxt}
+                            setCartModal={setOpenModal}
                         />
                     ))}
                 </div>

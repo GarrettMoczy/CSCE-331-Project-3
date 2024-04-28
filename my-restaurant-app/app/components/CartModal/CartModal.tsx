@@ -6,6 +6,15 @@ interface CartItemProps {
     name: string;
     price: string;
     type: number;
+    addedItems: IngredientItem[];
+    removedItems: IngredientItem[];
+}
+
+
+interface IngredientItem {
+    name: string,
+    id: number,
+    price: number
 }
 
 function CartModal({ setOpenModal }: { setOpenModal: any }) {
@@ -41,8 +50,6 @@ function CartModal({ setOpenModal }: { setOpenModal: any }) {
     const [cart, setCart] = useState<CartItemProps[]>(localStorage.getItem("cart") != null ? JSON.parse(localStorage.getItem("cart") as string) : [])
 
     // const cart: Array<CartItemProps> = JSON.parse(localStorage.getItem("cart") as string);
-
-    useEffect( () => {setCart(localStorage.getItem("cart") != null ? JSON.parse(localStorage.getItem("cart") as string) : [])})
 
     return (
         <div>
