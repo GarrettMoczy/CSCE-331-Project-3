@@ -15,7 +15,7 @@ interface modalControl {
 const Navbar: React.FC<modalControl> = ({setOpenModal, openModal}: modalControl) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [temperature, setTemperature] = useState(null);
-
+  
   useEffect(() => {
     function start(){
       gapi.client.init({

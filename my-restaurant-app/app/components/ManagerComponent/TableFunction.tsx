@@ -5,7 +5,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import CartItem from "../MenuItemComponent/CartItemComponent";
 import { format } from "date-fns";
-// import "./table.css"
+import "./table.css"
 
 interface Table {
     col1: any;

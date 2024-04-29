@@ -18,7 +18,7 @@ interface CartItem {
 export default function DrinkOptionComp({name, setOpenModal, price, thisOnClick,size, setCartModal}:DrinkOptionCompProp) {
     const Item:CartItem = {name: size + " " + name, price: price, type: 1}
     return(
-        <button onClick={() => {setOpenModal(false); thisOnClick(Item)()(); setCartModal(true)}} className="border-zinc-700 border-2 bg-zinc-900 rounded-lg overflow-off m-5 w-52">
+        <button onClick={async () => {setOpenModal(false); thisOnClick(Item)()(); await setCartModal(false); setCartModal(true)}} className="border-zinc-700 border-2 bg-zinc-900 rounded-lg overflow-off m-5 w-52">
             <img className="w-42" src={"images/drinks/drinkOptions/" + name + ".jpg"} alt={name}></img>
             {name}
         </button>

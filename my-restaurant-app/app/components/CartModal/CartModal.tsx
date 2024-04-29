@@ -19,64 +19,70 @@ interface IngredientItem {
 
 function CartModal({ setOpenModal }: { setOpenModal: any }) {
 
-    function checkOut(CartItems : any[], Drinks: any[], AddOns: any[],) {
-        const cartItemNames = CartItems != null ? CartItems.map((item) => (item.name)) : [""];
-        console.log(JSON.stringify({cartItemNames,Drinks,AddOns}))
-        fetch('http://localhost:3000/new_order', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({cartItemNames,Drinks,AddOns})
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to send order');
-            }
-            else {
-                localStorage.clear();
-            }
-            return response.json()
-        })
-        .then((data) => {
-            //console.log(data)
-            alert(data.orderId)
-            localStorage.clear()
-            setCart([])
-            
-        });
-    }
 
     const [cart, setCart] = useState<CartItemProps[]>(localStorage.getItem("cart") != null ? JSON.parse(localStorage.getItem("cart") as string) : [])
+    
 
-    // const cart: Array<CartItemProps> = JSON.parse(localStorage.getItem("cart") as string);
+    function calculateSubtotal(cart: CartItemProps[]): number {
+        let subtotal = 0;
+        cart.forEach((CartItem) => {
+            subtotal += parseFloat(CartItem.price);
+            if (CartItem.addedItems) {
+                CartItem.addedItems.forEach((addon) => {
+                    subtotal += addon.price;
+                });
+            }
+        });
+        return subtotal;
+    }
+
 
     return (
         <div>
             <img className="z-[999] w-5 fixed right-0 top-10 mr-2 mt-4"src="/images/triangle-white.png"></img>
-            <div className="flex flex-col fixed flex-wrap bg-white border-w overflow-off rounded-md my-5 z-[999] text-black font-semibold h-96 w-52 mr-2 right-0 top-10 items-center">
-                <div>
-                    {
-                    cart.map((CartItem, index) => (
-                                <CartItemComponent
-                                    key={index}
-                                    name={CartItem.name}
-                                    price={CartItem.price}
-                                />
-                            ))}
-                </div>
-                
-                {cart.length === 0 && 
-                <div> 
-                    Hungry? We have something for that...
+            <div className="container fixed bg-white border-w rounded-md my-5 z-[999] text-black h-3/5 w-96 mr-2 right-0 top-10 items-center">
+                {cart.length !== 0 &&
+                <div className="h-full">
+                    <div className="h-5/6 overflow-y-auto">
+                        {
+                        cart.map((CartItem, index) => (
+                                    <CartItemComponent
+                                        key={index}
+                                        name={CartItem.name}
+                                        price={parseFloat(CartItem.price)}
+                                        addedItems={CartItem.addedItems}
+                                        removedItems={CartItem.removedItems}
+                                        type={CartItem.type}
+                                    />
+                                ))}
+                    </div>
+                    <div className="font-bold ml-5 float-left" >
+                        Subtotal: {calculateSubtotal(cart).toFixed(2)}$
+                    </div>
+                    <button className="font-semibold underline float-right mr-5" onClick={() => {setCart([]); localStorage.clear();}}>
+                        clear cart
+                    </button>
+
+                    <button className="flex justify-center center bg-zinc-900 font-bold text-white border rounded-md border-white w-11/12 h-12 p-2 mx-auto mt-3 text-lg" onClick={() => { window.location.href = '/menu/checkout'; setOpenModal(false)}}>
+                        Check out
+                    </button>
                 </div>
                 }
-                <button className="" onClick={() => {localStorage.clear()}}>
-                    clear cart
-                </button>
-                <button className="mt-auto bg-black text-white border rounded-md border-white w-full " onClick={() => { checkOut(cart,[""],[""]); setOpenModal(false)}}>
-                    Check out
-                </button>
+                {cart.length === 0 &&
+                <div className="h-full">
+                    <div className="h-5/6 overflow-y-auto p-10 "> 
+                        Hungry? We have something for that...
+                    </div>
+                
+                    <button className="font-semibold underline text-white float-right mr-5">
+                        clear cart
+                    </button>
+    
+                    <button className=" flex justify-center center bg-zinc-900 font-bold text-white border rounded-md border-white w-11/12 h-12 p-2 mx-auto mt-3 text-lg" onClick={() => { window.location.href = '/menu' }}>
+                        Go to menu
+                    </button>
+                </div>
+                }
             </div>
         </div>
     );

@@ -47,7 +47,7 @@ function MenuItemModal({setOpenModal, name, price, altTxt, calorie, id, included
                         
                 </div>
                 <div className="">
-                    <button onClick={() => {thisOnClick(removedItems)(addedItems); setOpenModal(false); setCartModal(true)}} className="self-center p-1 m-3 h-16 w-52 text-xl border-2 border-zinc-700 bg-black">Send to Cart </button>
+                    <button onClick={async () => {thisOnClick(removedItems)(addedItems); setOpenModal(false); await setCartModal(false); setCartModal(true)}} className="self-center p-1 m-3 h-16 w-52 text-xl border-2 border-zinc-700 bg-black">Send to Cart </button>
                     <button className="text-xl m-5" onClick={()=> setOpenModal(false)}> X </button>
                 </div>
             </div>
