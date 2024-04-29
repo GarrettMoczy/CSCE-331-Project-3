@@ -15,7 +15,6 @@ import TableFunction from "../components/ManagerComponent/TableFunction"
 
 
 export default function Manager() {
-
     // Used for deletion:
     interface Ingredient {
         name: string;
@@ -33,6 +32,7 @@ export default function Manager() {
     const [ingredientList, setIngredientList] = useState<Ingredient[]>([]);
     const [drinkList, setDrinkList] = useState<Drink[]>([]);
     const [menuList, setMenuList] = useState<MenuOption[]>([]);
+    const [openModal, setOpenModal] = useState(false)
 
 
     useEffect(() => {
@@ -206,7 +206,9 @@ export default function Manager() {
     }
     return (
         <main>
-            <Navbar></Navbar>
+             <Navbar
+                openModal={openModal}
+                setOpenModal={setOpenModal}/>
             <div className='fixed right-0 bottom-3 z-[999]'>
                 <Translate></Translate>
             </div>

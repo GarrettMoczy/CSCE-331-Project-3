@@ -56,10 +56,6 @@ export default function Menu() {
         getIngredients();
     }, []);
 
-    useEffect(() => {
-
-    }), [openModal]
-
     const addToCart = (item: any) => (removedItems: IngredientItem[]) => (addedItems: IngredientItem[]) => {
         const newItem: CartItem = { name: item.name, price: item.price, type: item.type, addedItems: addedItems,removedItems: removedItems };
         let cart: CartItem[] = [];
