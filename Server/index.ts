@@ -95,7 +95,7 @@ app.get('/drinks', (req, res) => {
 
 app.get('/menu_item_ingredients', (req, res) => {
     pool
-        .query('SELECT menu_item.id as item_id, ingredients.name_ing, ingredients.id, ingredients.add_on_price, ingredients.valid_add_on FROM menu_item JOIN menu_item_ingredient ON (menu_item.id = menu_item_ingredient.menu_id) JOIN ingredients ON (menu_item_ingredient.ingredient_id = ingredients.id) LIMIT 100')
+        .query('SELECT menu_item.id as item_id, ingredients.name_ing, ingredients.id, ingredients.add_on_price,ingredients.stock, ingredients.valid_add_on FROM menu_item JOIN menu_item_ingredient ON (menu_item.id = menu_item_ingredient.menu_id) JOIN ingredients ON (menu_item_ingredient.ingredient_id = ingredients.id) LIMIT 100')
         .then((query_res) => {
             if (query_res.rows.length === 0) {
                 res.status(404).json({ error: 'No menu items found' });

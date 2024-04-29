@@ -40,7 +40,7 @@ export default function Menu() {
     interface IngredientItem {
         name: string,
         id: number,
-        price: number
+        price: number,
     }
     
     

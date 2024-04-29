@@ -40,7 +40,8 @@ export default function Menu() {
     interface IngredientItem {
         name: string,
         id: number,
-        price: number
+        price: number,
+        stock: number
     }
     
     
@@ -126,7 +127,7 @@ export default function Menu() {
                 const ingredientArray: IngredientItem[][] = [];
                 const allIngredientsArray: IngredientItem[]= [];
                 data.forEach((item: any) => {
-                    let ingredient: IngredientItem = {name: item.name_ing, id: item.id, price: item.add_on_price}
+                    let ingredient: IngredientItem = {name: item.name_ing, id: item.id, price: item.add_on_price, stock: item.stock}
                     if (!ingredientArray[item.item_id]) {
                         ingredientArray[item.item_id] = [];
                     }
