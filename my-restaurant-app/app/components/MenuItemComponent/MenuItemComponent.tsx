@@ -1,21 +1,32 @@
 "use client"
-import {useState} from "react"
+import {useState, useEffect} from "react"
 import Modal from "../MenuItemModal/MenuItemModal";
+
+interface IngredientItem {
+    name: string,
+    id: number,
+    price: number
+}
 interface MenuItemProps {
     name: string;
     price: string;
     altTxt: string;
     calorie: number;
-    thisOnClick: () => void;
+    id: number;
+    includedIngredients: IngredientItem[];
+    addOns: IngredientItem[];
+    thisOnClick: (item:any) => void;
+    setCartModal: any;
 }
 
-export default function MenuItem({name, price, altTxt, calorie, thisOnClick}: MenuItemProps){
+
+export default function MenuItem({name, price, altTxt, calorie, id, includedIngredients, addOns,  thisOnClick, setCartModal}: MenuItemProps){
     const [openModal, setOpenModal] = useState(false);
     return(
         <div>
-            <div className='flex flex-col relative flex-wrap border-zinc-700 border-2 bg-zinc-900 rounded-lg overflow-off m-5 w-52'>
+            <div className='flex flex-col relative flex-wrap border-zinc-700 border-2 bg-zinc-900 rounded-lg overflow-off m-5 w-52 items-center'>
                 <div className="flex flex-col px-5 pt-5">
-                    <img src={"images/tacos/" + name + ".jpg"} className="w-40 h-50"></img>
+                    <img src={"images/tacos/" + name + ".jpg"} className="w-40 h-50" alt={name}></img>
                     <div className='font-bold text-white'>
                         {name}
                     </div>
@@ -33,7 +44,12 @@ export default function MenuItem({name, price, altTxt, calorie, thisOnClick}: Me
                         price={price}
                         altTxt={altTxt}
                         calorie={calorie}
-                        thisOnClick= {thisOnClick} />}
+                        includedIngredients={includedIngredients}
+                        addOns={addOns}
+                        id={id}
+                        thisOnClick= {thisOnClick} 
+                        setCartModal={setCartModal}
+                        />}
         </div>
     );
 }

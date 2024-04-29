@@ -1,17 +1,20 @@
 'use client'
 import React, { useState, useEffect } from 'react'
 import Navbar from "../components/Navbar/Navbar";
+
+import Translate from '../components/Translate/Translate';
 import DeleteFunction from "../components/ManagerComponent/deleteFunction"
 import CreateMenuItemFunction from "../components/ManagerComponent/createMenuItemFunction"
 import CreateDrinkFunction from "../components/ManagerComponent/createDrinkFunction"
 import CreateIngredientFunction from "../components/ManagerComponent/createIngredientFunction"
 import ChangePriceFunction from "../components/ManagerComponent/changePriceFunction"
 import IncreaseStockFunction from "../components/ManagerComponent/increaseStockFunction"
+import TableFunction from "../components/ManagerComponent/TableFunction"
+
 
 
 
 export default function Manager() {
-
     // Used for deletion:
     interface Ingredient {
         name: string;
@@ -25,16 +28,11 @@ export default function Manager() {
         name: string;
     }
 
-    // What ingredients will be apart of a menu option:
-    interface menuIngredients {
-        name: string;
-    }
-
-
     // Holding ingredients:, drinks, menu options:
     const [ingredientList, setIngredientList] = useState<Ingredient[]>([]);
     const [drinkList, setDrinkList] = useState<Drink[]>([]);
     const [menuList, setMenuList] = useState<MenuOption[]>([]);
+    const [openModal, setOpenModal] = useState(false)
 
 
     useEffect(() => {
@@ -56,14 +54,14 @@ export default function Manager() {
             return response.text();
         })
     }
-    function newIngredient(name: string, stock: string, price: string, minStock: string) {
+    function newIngredient(name: string, stock: string, price: string, minStock: string, addOn: boolean) {
         fetch('http://localhost:3000/new_add_on', {
             method: 'POST',
             headers: {
                 'Access-Control-Allow-Headers': "*",
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({name, stock, price, minStock}),
+            body: JSON.stringify({name, stock, price, minStock, addOn}),
         })
         .then(response => {
             return response.text();
@@ -142,7 +140,7 @@ export default function Manager() {
     }
 
     function changePrice(name: string, price: string) {
-        fetch('http://localhost:3000/change_stock', {
+        fetch('http://localhost:3000/change_price', {
             method: 'PUT',
             headers: {
                 'Access-Control-Allow-Headers': "*",
@@ -169,7 +167,7 @@ export default function Manager() {
             .then((data) => {
                 // Process the data received from the API and store it in the state   
                 const ingData: Ingredient[] = data.map((item: any) => ({
-                    name: item.name,
+                    name: item.name_ing,
                 }));
                 setIngredientList(ingData);
         })
@@ -206,15 +204,17 @@ export default function Manager() {
                 setMenuList(ingData);
         })
     }
-
-
-
     return (
         <main>
-            <Navbar></Navbar>
-            <div>
+             <Navbar
+                openModal={openModal}
+                setOpenModal={setOpenModal}/>
+            <div className='fixed right-0 bottom-3 z-[999]'>
+                <Translate></Translate>
+            </div>
+            <div className='grid grid-cols-4 gap-4'>
                 {/* Fix Formatting */}
-                <div className='New Options'>   
+                <div id='New Options'>   
                     <br />
                     <br />
                     <br />                  
@@ -224,16 +224,29 @@ export default function Manager() {
                 </div>
 
                 {/* Fix Formatting */}
-                <div className='Delete Options'>
+                <div id='Delete Options'>
+                    <br />
+                    <br />
+                    <br /> 
                     <DeleteFunction name="Delete Ingredient" items = {ingredientList} fun = {deleteIngredient} />
                     <DeleteFunction name="Delete Drink" items = {drinkList} fun = {deleteDrink} />
                     <DeleteFunction name="Delete Menu Item" items = {menuList} fun = {deleteMenuItem} />
                 </div>
                     
                 {/* Fix Formatting */}    
-                <div className='Changing'>
+                <div id='Changing'>
+                    <br />
+                    <br />
+                    <br /> 
                     <IncreaseStockFunction name="Increase Ingredient Stock" items={ingredientList} fun={increaseStock} />
                     <ChangePriceFunction name="Change Menu Item Price" items={menuList} fun={changePrice} />
+                </div>
+                {/* Fix Formatting */} 
+                <div id='Tables' className=''>
+                    <br />
+                    <br />
+                    <br /> 
+                    <TableFunction></TableFunction>
                 </div>
             </div>
         </main>
