@@ -4,7 +4,8 @@ import Modal from "../CartModal/CartModal";
 import {useState, useEffect} from "react";
 import { GoogleLogin, GoogleLogout } from 'react-google-login';
 import axios from 'axios';
-import {gapi} from 'gapi-script';
+
+let gapi: any;
 
 interface modalControl {
   setOpenModal: any;
@@ -23,10 +24,17 @@ const Navbar: React.FC<modalControl> = ({setOpenModal, openModal}: modalControl)
   const [temperature, setTemperature] = useState(null);
   
   useEffect(() => {
-    if(typeof window !== 'undefined') {
-      gapi.load('client:auth2', start);
-  }},[]);
-
+    import('gapi-script')
+      .then((gapiModule) => {
+        gapi = gapiModule;
+        gapi.load('client:auth2', () => {
+          gapi.client.init({
+            clientId: '426894892243-8busb36ofb5949nkdf4qgvq10g0rci3l.apps.googleusercontent.com',
+            scope: '',
+          });
+        });
+      });
+  }, []);
   
   const onSuccess = (response: any) => {
     // console.log(response);
