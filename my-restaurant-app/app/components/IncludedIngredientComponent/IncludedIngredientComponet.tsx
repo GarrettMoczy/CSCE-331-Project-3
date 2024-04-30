@@ -34,7 +34,7 @@ export default function includedIngredientComp({name, id, price,stock, removedIt
         }
         console.log(removedItems)
     }
-    const [selected, setSelected] = UseState(false)
+    const [selected, setSelected] = useState(false)
 
     return (
         !selected && (
