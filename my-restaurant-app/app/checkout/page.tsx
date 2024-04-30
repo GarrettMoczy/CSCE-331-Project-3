@@ -22,7 +22,7 @@ interface IngredientItem {
 
 
 export default function checkOut() {
-    const [cart, setCart] = useState<CartItemProps[]>(localStorage.getItem("cart") != null ? JSON.parse(localStorage.getItem("cart") as string) : [])
+    const [cart, setCart] = UseState<CartItemProps[]>(localStorage.getItem("cart") != null ? JSON.parse(localStorage.getItem("cart") as string) : [])
 
     function calculateSubtotal(cart: CartItemProps[]): number {
         let subtotal = 0;
@@ -39,13 +39,13 @@ export default function checkOut() {
     let subtotal = calculateSubtotal(cart)
 
 
-    const [cardNumber, setCardNumber] = useState("");
-    const [cardholderName, setCardholderName] = useState("");
-    const [expirationDate, setExpirationDate] = useState("");
-    const [cvv, setCvv] = useState("");
-    const [isFormValid, setIsFormValid] = useState(false);
+    const [cardNumber, setCardNumber] = UseState("");
+    const [cardholderName, setCardholderName] = UseState("");
+    const [expirationDate, setExpirationDate] = UseState("");
+    const [cvv, setCvv] = UseState("");
+    const [isFormValid, setIsFormValid] = UseState(false);
 
-    useEffect(() => {
+    UseEffect(() => {
         if (cardNumber && cardholderName && expirationDate && cvv) {
             setIsFormValid(true);
         } else {

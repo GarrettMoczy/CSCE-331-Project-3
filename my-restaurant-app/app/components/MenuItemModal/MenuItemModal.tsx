@@ -56,7 +56,7 @@ function MenuItemModal({setOpenModal, name, price, altTxt, calorie, id, included
             <div className="flex flex-col w-full overflow-auto relative justify-items center">
                 <div className="flex flex-wrap relative p-5 justify-center center">
                     <div className="w-1/5 justify-self-end">
-                        WHAT'S INCLUDED
+                        WHAT&apos;S INCLUDED
                     </div>
                     <div className="w-4/5">
                         {includedIngredients.map((item, index) => (
