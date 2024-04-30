@@ -109,8 +109,9 @@ export default function checkOut() {
             //console.log(data)
             alert(data.orderId)
             localStorage.clear()
-            window.location.href = "/";
-            
+            if(window !== undefined) {
+                window.location.href = "/";
+            }
         });
     };
 
