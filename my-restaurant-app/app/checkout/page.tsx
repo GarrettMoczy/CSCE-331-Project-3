@@ -105,12 +105,13 @@ export default function checkOut() {
             }
             return response.json()
         })
-        // .then((data) => {
-        //     //console.log(data)
-        //     alert(data.orderId)
-            // localStorage.clear()
+        .then((data) => {
+            //console.log(data)
+            alert(data.orderId)
+            localStorage.clear()
+            window.location.href = "/";
             
-        // });
+        });
     };
 
     return (
