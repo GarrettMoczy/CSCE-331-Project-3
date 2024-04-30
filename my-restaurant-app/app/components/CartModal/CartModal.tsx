@@ -39,7 +39,6 @@ function CartModal({ setOpenModal }: { setOpenModal: any }) {
 
     return (
         <div>
-            <img className="z-[999] w-5 fixed right-0 top-10 mr-2 mt-4"src="/images/triangle-white.png"></img>
             <div className="container fixed bg-white border-w rounded-md my-5 z-[999] text-black h-3/5 w-96 mr-2 right-0 top-10 items-center">
                 {cart.length !== 0 &&
                 <div className="h-full">
@@ -63,7 +62,7 @@ function CartModal({ setOpenModal }: { setOpenModal: any }) {
                         clear cart
                     </button>
 
-                    <button className="flex justify-center center bg-zinc-900 font-bold text-white border rounded-md border-white w-11/12 h-12 p-2 mx-auto mt-3 text-lg" onClick={() => { window.location.href = '/menu/checkout'; setOpenModal(false)}}>
+                    <button className="flex justify-center center bg-zinc-900 font-bold text-white border rounded-md border-white w-11/12 h-12 p-2 mx-auto mt-3 text-lg" onClick={() => { window.location.href = '/checkout'; setOpenModal(false)}}>
                         Check out
                     </button>
                 </div>
