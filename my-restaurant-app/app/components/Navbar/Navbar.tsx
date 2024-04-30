@@ -18,11 +18,13 @@ const Navbar: React.FC<modalControl> = ({setOpenModal, openModal}: modalControl)
   
   useEffect(() => {
     function start(){
-      gapi.client.init({
-        clientId: '426894892243-8busb36ofb5949nkdf4qgvq10g0rci3l.apps.googleusercontent.com',
-        scope:""
-      })
-    };
+      if(typeof window !== undefined) {
+        gapi.client.init({
+          clientId: '426894892243-8busb36ofb5949nkdf4qgvq10g0rci3l.apps.googleusercontent.com',
+          scope:""
+        })
+      };
+    }
     gapi.load('client:auth2', start);
   });
 
