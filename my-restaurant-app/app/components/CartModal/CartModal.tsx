@@ -62,7 +62,7 @@ function CartModal({ setOpenModal }: { setOpenModal: any }) {
                         clear cart
                     </button>
 
-                    <button className="flex justify-center center bg-zinc-900 font-bold text-white border rounded-md border-white w-11/12 h-12 p-2 mx-auto mt-3 text-lg" onClick={() => { if(typeof window !== undefined) window.location.href = '/checkout'; setOpenModal(false)}}>
+                    <button className="flex justify-center center bg-zinc-900 font-bold text-white border rounded-md border-white w-11/12 h-12 p-2 mx-auto mt-3 text-lg" onClick={() => { if(typeof window !== 'undefined') window.location.href = '/checkout'; setOpenModal(false)}}>
                         Check out
                     </button>
                 </div>
@@ -77,7 +77,7 @@ function CartModal({ setOpenModal }: { setOpenModal: any }) {
                         clear cart
                     </button>
     
-                    <button className=" flex justify-center center bg-zinc-900 font-bold text-white border rounded-md border-white w-11/12 h-12 p-2 mx-auto mt-3 text-lg" onClick={() => { if(typeof window !== undefined) window.location.href = '/menu' }}>
+                    <button className=" flex justify-center center bg-zinc-900 font-bold text-white border rounded-md border-white w-11/12 h-12 p-2 mx-auto mt-3 text-lg" onClick={() => { if(typeof window !== 'undefined') window.location.href = '/menu' }}>
                         Go to menu
                     </button>
                 </div>
