@@ -67,7 +67,7 @@ export default function CreateDrink(){
 
 
     function salesReport(strDate: string, enDate: string) {
-        fetch('http://localhost:3000/sales_report', {
+        fetch(' https://csce-331-project-3-10.onrender.com/sales_report', {
             method: 'PUT',
             headers: {
                 'Access-Control-Allow-Headers': "*",
@@ -92,7 +92,7 @@ export default function CreateDrink(){
     }
 
     function sellsTogether(strDate: string, enDate: string) {
-        fetch('http://localhost:3000/sells_together', {
+        fetch(' https://csce-331-project-3-10.onrender.com/sells_together', {
             method: 'PUT',
             headers: {
                 'Access-Control-Allow-Headers': "*",
@@ -119,7 +119,7 @@ export default function CreateDrink(){
     }
 
     function excessReport(strDate: string, enDate: string) {
-        fetch('http://localhost:3000/excess_report', {
+        fetch(' https://csce-331-project-3-10.onrender.com/excess_report', {
             method: 'PUT',
             headers: {
                 'Access-Control-Allow-Headers': "*",

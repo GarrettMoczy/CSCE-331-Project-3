@@ -97,7 +97,7 @@ export default function CheckOut() {
             })
         });
         console.log(JSON.stringify({ cartItemNames, drinkNames, addOns, removedItems }));
-        fetch('http://localhost:3000/new_order', {
+        fetch(' https://csce-331-project-3-10.onrender.com/new_order', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

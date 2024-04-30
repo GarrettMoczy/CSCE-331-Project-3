@@ -42,7 +42,7 @@ export default function Manager() {
     }, []);
 
     function newMenuItem(name: string, price: string, calories: string, ingredients: string[] ) {
-        fetch('http://localhost:3000/new_menu_option', {
+        fetch(' https://csce-331-project-3-10.onrender.com/new_menu_option', {
             method: 'POST',
             headers: {
                 'Access-Control-Allow-Headers': "*",
@@ -55,7 +55,7 @@ export default function Manager() {
         })
     }
     function newIngredient(name: string, stock: string, price: string, minStock: string, addOn: boolean) {
-        fetch('http://localhost:3000/new_add_on', {
+        fetch(' https://csce-331-project-3-10.onrender.com/new_add_on', {
             method: 'POST',
             headers: {
                 'Access-Control-Allow-Headers': "*",
@@ -68,7 +68,7 @@ export default function Manager() {
         })
     }
     function newDrink(size: string, price: string) {
-        fetch('http://localhost:3000/new_drink', {
+        fetch(' https://csce-331-project-3-10.onrender.com/new_drink', {
             method: 'POST',
             headers: {
                 'Access-Control-Allow-Headers': "*",
@@ -84,7 +84,7 @@ export default function Manager() {
     //---------------Deleting Options---------------//
 
     function deleteDrink(name: string) {
-        fetch('http://localhost:3000/delete_drink', {
+        fetch(' https://csce-331-project-3-10.onrender.com/delete_drink', {
             method: 'DELETE',
             headers: {
                 'Access-Control-Allow-Headers': "*",
@@ -97,7 +97,7 @@ export default function Manager() {
         })
     }
     function deleteMenuItem(name: string) {
-        fetch('http://localhost:3000/delete_menu_item', {
+        fetch(' https://csce-331-project-3-10.onrender.com/delete_menu_item', {
             method: 'DELETE',
             headers: {
                 'Access-Control-Allow-Headers': "*",
@@ -110,7 +110,7 @@ export default function Manager() {
         })
     }
     function deleteIngredient(name: string) {
-        fetch('http://localhost:3000/delete_ingredient', {
+        fetch(' https://csce-331-project-3-10.onrender.com/delete_ingredient', {
             method: 'DELETE',
             headers: {
                 'Access-Control-Allow-Headers': "*",
@@ -126,7 +126,7 @@ export default function Manager() {
     //---------------Update Options---------------//
 
     function increaseStock(name: string, stock: string) {
-        fetch('http://localhost:3000/change_stock', {
+        fetch(' https://csce-331-project-3-10.onrender.com/change_stock', {
             method: 'PUT',
             headers: {
                 'Access-Control-Allow-Headers': "*",
@@ -140,7 +140,7 @@ export default function Manager() {
     }
 
     function changePrice(name: string, price: string) {
-        fetch('http://localhost:3000/change_price', {
+        fetch(' https://csce-331-project-3-10.onrender.com/change_price', {
             method: 'PUT',
             headers: {
                 'Access-Control-Allow-Headers': "*",
@@ -157,7 +157,7 @@ export default function Manager() {
 
     // Getting items and putting them into their assigned states:
     function getIngredients(){
-        fetch(`http://localhost:3000/ingredients`) // Replace with the actual API endpoint URL
+        fetch(` https://csce-331-project-3-10.onrender.com/ingredients`) // Replace with the actual API endpoint URL
             .then((response) => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -173,7 +173,7 @@ export default function Manager() {
         })
     }
     function getDrinks(){
-        fetch(`http://localhost:3000/drinks`) // Replace with the actual API endpoint URL
+        fetch(` https://csce-331-project-3-10.onrender.com/drinks`) // Replace with the actual API endpoint URL
             .then((response) => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -189,7 +189,7 @@ export default function Manager() {
         })
     }
     function getMenuOptions(){
-        fetch(`http://localhost:3000/menu_items`) // Replace with the actual API endpoint URL
+        fetch(` https://csce-331-project-3-10.onrender.com/menu_items`) // Replace with the actual API endpoint URL
             .then((response) => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');

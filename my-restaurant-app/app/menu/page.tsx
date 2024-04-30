@@ -77,7 +77,7 @@ export default function Menu() {
  
 
     function tempRecomendation() {
-        fetch('http://localhost:3000/temperature')
+        fetch(' https://csce-331-project-3-10.onrender.com/temperature')
         .then((response) => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -98,7 +98,7 @@ export default function Menu() {
     }
 
     function getMenuItems(){
-        fetch(`http://localhost:3000/menu_items`) // Replace with the actual API endpoint URL
+        fetch(` https://csce-331-project-3-10.onrender.com/menu_items`) // Replace with the actual API endpoint URL
             .then((response) => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -121,7 +121,7 @@ export default function Menu() {
     
 
     function getDrinks(){
-        fetch(`http://localhost:3000/drinks`) // Replace with the actual API endpoint URL
+        fetch(` https://csce-331-project-3-10.onrender.com/drinks`) // Replace with the actual API endpoint URL
             .then((response) => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -142,7 +142,7 @@ export default function Menu() {
     }
 
     function getIngredients() {
-        fetch('http://localhost:3000/menu_item_ingredients') 
+        fetch(' https://csce-331-project-3-10.onrender.com/menu_item_ingredients') 
             .then((response) => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
