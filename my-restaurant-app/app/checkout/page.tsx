@@ -21,7 +21,7 @@ interface IngredientItem {
 }
 
 
-export default function checkOut() {
+export default function CheckOut() {
     const [cart, setCart] = useState<CartItemProps[]>(localStorage.getItem("cart") != null ? JSON.parse(localStorage.getItem("cart") as string) : [])
 
     function calculateSubtotal(cart: CartItemProps[]): number {
