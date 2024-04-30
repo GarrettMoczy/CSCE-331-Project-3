@@ -24,6 +24,19 @@ interface IngredientItem {
 export default function checkOut() {
     const [cart, setCart] = useState<CartItemProps[]>(localStorage.getItem("cart") != null ? JSON.parse(localStorage.getItem("cart") as string) : [])
 
+    function calculateSubtotal(cart: CartItemProps[]): number {
+        let subtotal = 0;
+        cart.forEach((CartItem) => {
+            subtotal += CartItem.price;
+            if (CartItem.addedItems) {
+                CartItem.addedItems.forEach((addon) => {
+                    subtotal += addon.price;
+                });
+            }
+        });
+        return subtotal;
+    }
+    let subtotal = calculateSubtotal(cart)
     // function checkOut() {
     //     const cartItemNames = cart.map((item) => (item.name));
     //     console.log(JSON.stringify({cartItemNames,Drinks,AddOns}))
@@ -52,7 +65,7 @@ export default function checkOut() {
     // }
 
     return (
-        <main className="bg-zinc-200 text-black">
+        <main className="bg-zinc-200 text-black h-screen">
             <div className='fixed right-0 bottom-0 z-[999]'>
                 <Translate></Translate>
             </div>
@@ -66,9 +79,8 @@ export default function checkOut() {
                     </Link>
                 </div>
             </div>
-            <div className="flex flex-col w-full h-full flex-wrap p-20">
+            <div className="flex flex-row w-full justify-between h-100vh flex-wrap p-20">
                 <h1 className=" w-full text-[50px] text-black">CHECK OUT</h1>  
-                <div>
                     <div className="flex  flex-col justify-around relative border-zinc-400 border-2 rounded-lg w-2/5 h-full">
                         <h2 className="flex flex-row items-center justify-items-center h-28 w-full text-[25px]">
                             <div className="border-b-2 border-zinc-400 w-full p-5">
@@ -88,21 +100,35 @@ export default function checkOut() {
                             ))}
                         </div>
                         <footer className="flex flex-col items-start justify-items-start h-28 w-full text-md p-5 text-gray-700">
-                            <div className="font-bold">
-                                Subtotal: 
+                            <div className="w-full flex flex-row font-bold">
+                                <div className="">
+                                    Subtotal: 
+                                </div>
+                                <div className="ml-auto">
+                                    {subtotal.toFixed(2)}$
+                                </div>
                             </div>
-                            <div className='font-semibold w-full border-b-2 border-zinc-400 border-dashed'>
-                                Tax:
+                            <div className="w-full flex flex-row font-semibold border-b-2 border-zinc-400 border-dashed">
+                                <div>
+                                    Tax:
+                                </div>
+                                <div className="ml-auto">
+                                    {(subtotal * 0.08).toFixed(2)}$
+                                </div>
                             </div>
-                            <div className="font-bold text-black text-lg">
-                                Order Total:
+                            <div className="w-full flex flex-row font-bold text-black text-lg">
+                                <div>
+                                    Order Total:
+                                </div>
+                                <div className="ml-auto">
+                                    {(subtotal * 1.08).toFixed(2)}$
+                                </div>
                             </div>
                         </footer>
                     </div>
-                    <div className="flex flex-col p-20 w-2/5"> 
-                    
+                    <div className="flex flex-col justify-around relative border-zinc-400 border-2 rounded-lg w-2/5 h-full"> 
+                           Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text 
                     </div>
-                </div>
             </div>
         </main>
     );

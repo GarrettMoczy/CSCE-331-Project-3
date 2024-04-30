@@ -29,14 +29,14 @@ export default function CartItem({name, price, addedItems, removedItems, type}: 
                 </div>
             </div>
             {addedItems && addedItems.map((item, index) => (
-                <div className="justify-self-start self-start text-sm text-green-700 pl-12">
+                <div key={index} className="justify-self-start self-start text-sm text-green-700 pl-12">
                     +{item.name}
                 </div>
             ))}
 
             {removedItems && removedItems.map((item, index) => (
-                <div className="justify-self-start self-start text-sm text-red-500 pl-12">
-                    No {item.name}
+                <div key={index} className="justify-self-start self-start text-sm text-red-500 pl-12">
+                    -{item.name}
                 </div>
             ))}
         </div>
