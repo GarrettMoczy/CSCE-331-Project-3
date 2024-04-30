@@ -33,7 +33,7 @@ function ChangePriceModal({ setOpenModal, name, items,  fun}: ModalItemProps) {
                 <button onClick={()=> setOpenModal(false)}> X </button>
             </div>
             <div className="flex flex-col">
-                <div className='font-bold text-white'>
+                <div className='font-bold text-white ml-2'>
                     {name}
                 </div>
                 <form>
@@ -46,8 +46,10 @@ function ChangePriceModal({ setOpenModal, name, items,  fun}: ModalItemProps) {
                         </select>
                         <br />
                         <br />
-                        Enter New Price:
-                        <input className="self-center border-2 rounded-md m-1 bg-black w-40" type="text" onChange={changePrice}/>
+                        <div className="ml-2">
+                            Enter New Price:
+                            <input className="self-center border-2 rounded-md m-1 bg-black w-40" type="text" onChange={changePrice}/>
+                        </div>
                     </label>
                 </form>
             </div>

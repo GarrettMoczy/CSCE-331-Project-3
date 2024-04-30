@@ -33,20 +33,22 @@ function IncreaseStockModal({ setOpenModal, name, items, fun}: ModalItemProps) {
                 <button onClick={()=> setOpenModal(false)}> X </button>
             </div>
             <div className="flex flex-col">
-                <div className='font-bold text-white'>
+                <div className='font-bold text-white ml-2'>
                     {name}
                 </div>
                 <form>
                     <label>
-                        <br />
-                        <select value={ingName} onChange={changeName} className="border-2 rounded-md bg-black p-1 m-3 w-3/4 ">
-                            {items.map((e: any, key: any) => {
-                                return <option key={key} value={e.value}>{e.name}</option>;
-                            })}
-                        </select>
-                        <br />
-                        Increase Stock by:
-                        <input className="self-center border-2 rounded-md m-1 bg-black w-40" type="text" onChange={changePrice}/>
+                        <div className="ml-2">
+                            <br />
+                            <select value={ingName} onChange={changeName} className="border-2 rounded-md bg-black p-1 m-3 w-3/4 ">
+                                {items.map((e: any, key: any) => {
+                                    return <option key={key} value={e.value}>{e.name}</option>;
+                                })}
+                            </select>
+                            <br />
+                            Increase Stock by:
+                            <input className="self-center border-2 rounded-md m-1 bg-black w-40" type="text" onChange={changePrice}/>
+                        </div>
                     </label>
                 </form>
             </div>

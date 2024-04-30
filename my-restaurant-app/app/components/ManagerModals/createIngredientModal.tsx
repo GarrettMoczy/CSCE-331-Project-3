@@ -50,33 +50,35 @@ function CreateIngredientModal({ setOpenModal, name, fun}: ModalItemProps) {
                 <button onClick={()=> setOpenModal(false)}> X </button>
             </div>
             <div className="flex flex-col">
-                <div className='font-bold text-white'>
+                <div className='font-bold text-white ml-2'>
                     {name}
                 </div>
                 <form>
                     <label>
-                        <br />
-                        Enter Ingredient Name:
-                        <input className="self-center border-2 rounded-md m-1 bg-black w-40 " type="text" onChange={changeName}/>
-                        <br />
-                        <br />
-                        Enter Stock:
-                        <input className="self-center border-2 rounded-md m-1 bg-black w-40" type="text" onChange={changeStock}/>
-                        <br />
-                        <br />
-                        Enter Add-on Price:
-                        <input className="self-center border-2 rounded-md m-1 bg-black w-40" type="text" onChange={changePrice}/>
-                        <br />
-                        <br />
-                        Enter Min-Stock:
-                        <input className="self-center border-2 rounded-md m-1 bg-black w-40" type="text" onChange={changeMinStock}/>
-                        <br />
-                        <br />
-                        Allowed to be an add-on:
-                        <select className="self-center border-2 rounded-md m-1 bg-black w-40" onChange={changeAddOn}>
-                            <option>Yes</option>
-                            <option>No</option>
-                        </select>
+                        <div className="ml-2">
+                            <br />
+                            Enter Ingredient Name:
+                            <input className="self-center border-2 rounded-md m-1 bg-black w-40 " type="text" onChange={changeName}/>
+                            <br />
+                            <br />
+                            Enter Stock:
+                            <input className="self-center border-2 rounded-md m-1 bg-black w-40" type="text" onChange={changeStock}/>
+                            <br />
+                            <br />
+                            Enter Add-on Price:
+                            <input className="self-center border-2 rounded-md m-1 bg-black w-40" type="text" onChange={changePrice}/>
+                            <br />
+                            <br />
+                            Enter Min-Stock:
+                            <input className="self-center border-2 rounded-md m-1 bg-black w-40" type="text" onChange={changeMinStock}/>
+                            <br />
+                            <br />
+                            Allowed to be an add-on:
+                            <select className="self-center border-2 rounded-md m-1 bg-black w-40" onChange={changeAddOn}>
+                                <option>Yes</option>
+                                <option>No</option>
+                            </select>
+                        </div>
                     </label>
                 </form>
             </div>
