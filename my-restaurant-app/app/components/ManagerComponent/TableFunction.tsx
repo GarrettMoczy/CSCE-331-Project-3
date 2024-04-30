@@ -144,8 +144,11 @@ export default function CreateDrink(){
 
     return(
         <div>
-            <div className='flex flex-col relative flex-wrap border-zinc-700 border-2 bg-zinc-900 rounded-lg overflow-off m-5 w-20/21 h-1/2'>
-                <div id="table">
+            <div className='flex flex-col relative flex-wrap border-zinc-700 border-2 bg-zinc-900 rounded-lg overflow-off m-5 w-fit'>
+                <div id="table" className="table-auto">
+                    <div className="ml-2" hidden={!tableStatus}>
+                        Waiting for table generation
+                    </div>
                     <table hidden={tableStatus}>
                         <thead>
                             <tr>
@@ -169,7 +172,7 @@ export default function CreateDrink(){
                     </table>
                 </div>
                 <br />
-                <div id="functionality">
+                <div id="functionality" className="ml-2">
                     Start Date:
                     <DatePicker className="flex flex-col relative flex-wrap border-zinc-700 border-2 bg-zinc-900 rounded-lg overflow-off m-5 w-52" dateFormat="yyyy-MM-dd" selectsStart selected={startDate} onChange={(date: any) => setStartDate(date)} />
                     <br />
