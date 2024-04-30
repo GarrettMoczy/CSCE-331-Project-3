@@ -89,26 +89,26 @@ export default function checkOut() {
             })
         });
         console.log(JSON.stringify({ cartItemNames, drinkNames, addOns, removedItems }));
-        // fetch('http://localhost:3000/new_order', {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify({cartItemNames,drinkNames,AddOns})
-        // })
-        // .then(response => {
-        //     if (!response.ok) {
-        //         throw new Error('Failed to send order');
-        //     }
-        //     else {
-        //         localStorage.clear();
-        //     }
-        //     return response.json()
-        // })
+        fetch('http://localhost:3000/new_order', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({cartItemNames,drinkNames, addOns, removedItems})
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to send order');
+            }
+            else {
+                localStorage.clear();
+            }
+            return response.json()
+        })
         // .then((data) => {
         //     //console.log(data)
         //     alert(data.orderId)
-        //     localStorage.clear()
+            // localStorage.clear()
             
         // });
     };

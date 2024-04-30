@@ -151,23 +151,23 @@ app.post('/new_drink', (req, res) => {
 app.post('/new_order', async (req, res) => {
     pool 
 
-    const {cartItemNames, drinkItems, addOns } = req.body;
+    const {cartItemNames,drinkNames, addOns, removedItems } = req.body;
 
-
+    console.log(cartItemNames,drinkNames, addOns, removedItems)
     let orderId;
     
-    const orderIdQuery = "SELECT new_order(1)"
-    try{
-        const client = await pool.connect();
-        const result = await client.query(orderIdQuery)
-        orderId = result.rows[0].new_order
-        const result2 = await client.query("SELECT complete_order($1, $2, $3, $4)", [orderId, cartItemNames, drinkItems, addOns]);
-        res.json({orderId: orderId})
-    }
-    catch(error){
-        console.error("Error creating new order", error)
-        res.status(500).json({error: error.message})
-    }
+    // const orderIdQuery = "SELECT new_order(1)"
+    // try{
+    //     const client = await pool.connect();
+    //     const result = await client.query(orderIdQuery)
+    //     orderId = result.rows[0].new_order
+    //     const result2 = await client.query("SELECT complete_order($1, $2, $3, $4, $5)", [orderId, cartItemNames, drinkItems, addOns, removedItems]);
+    //     res.json({orderId: orderId})
+    // }
+    // catch(error){
+    //     console.error("Error creating new order", error)
+    //     res.status(500).json({error: error.message})
+    // }
 })
 
 
