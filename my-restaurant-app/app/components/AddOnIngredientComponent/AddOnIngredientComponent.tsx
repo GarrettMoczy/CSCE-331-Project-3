@@ -57,7 +57,9 @@ export default function includedIngredientComp({name, id, price,stock , addedIte
             <img src={"images/GreenCheck.png"} className="w-12 absolute z-[1001] top-14 left-14"></img>
             <div className = "flex flex-col">
                 {name} | +{price.toFixed(2)}$
-                {stock && `Stock: ${stock}`}
+                <div>
+                    {stock && `Stock: ${stock}`}
+                </div>
             </div>
         </button>)
     );
