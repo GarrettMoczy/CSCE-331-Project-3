@@ -45,31 +45,33 @@ function CreateMenuItemModal({ setOpenModal, name, items, fun}: ModalItemProps) 
                 <button onClick={()=> setOpenModal(false)}> X </button>
             </div>
             <div className="flex flex-col">
-                <div className='font-bold text-white'>
+                <div className='font-bold text-white ml-2'>
                     {name}
                 </div>
                 <form>
                     <label>
-                        <br />
-                        Enter Menu Item Name:
-                        <input className="self-center border-2 rounded-md m-1 bg-black w-40 float-right" type="text" onChange={changeName}/>
-                        <br />
-                        <br />
-                        Enter Price:
-                        <input className="self-center border-2 rounded-md m-1 bg-black w-40" type="text" onChange={changePrice}/>
-                        <br />
-                        <br />
-                        Total Calories:
-                        <input className="self-center border-2 rounded-md m-1 bg-black w-40" type="text" onChange={changeCalories}/>
-                        <br />
-                        <br />
-                        Ingredients Used:
-                        <br />
-                        <select multiple id="test" onChange={changeIngredients} className="self-center border-2 rounded-md bg-black p-1 m-1 h-56 w-3/4">
-                            {items.map((e: any, key: any) => {
-                                return <option key={key} value={e.value}>{e.name}</option>;
-                            })}
-                        </select>
+                        <div className="ml-2">
+                            <br />
+                            Enter Menu Item Name:
+                            <input className="self-center border-2 rounded-md m-1 bg-black w-40 float-right" type="text" onChange={changeName}/>
+                            <br />
+                            <br />
+                            Enter Price:
+                            <input className="self-center border-2 rounded-md m-1 bg-black w-40" type="text" onChange={changePrice}/>
+                            <br />
+                            <br />
+                            Total Calories:
+                            <input className="self-center border-2 rounded-md m-1 bg-black w-40" type="text" onChange={changeCalories}/>
+                            <br />
+                            <br />
+                            Ingredients Used:
+                            <br />
+                            <select multiple id="test" onChange={changeIngredients} className="self-center border-2 rounded-md bg-black p-1 m-1 h-56 w-3/4">
+                                {items.map((e: any, key: any) => {
+                                    return <option key={key} value={e.value}>{e.name}</option>;
+                                })}
+                            </select>
+                        </div>
                     </label>
                 </form>
             </div>

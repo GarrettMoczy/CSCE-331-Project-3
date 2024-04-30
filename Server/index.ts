@@ -95,7 +95,7 @@ app.get('/drinks', (req, res) => {
 
 app.get('/menu_item_ingredients', (req, res) => {
     pool
-        .query('SELECT menu_item.id as item_id, ingredients.name_ing, ingredients.id, ingredients.add_on_price, ingredients.valid_add_on FROM menu_item JOIN menu_item_ingredient ON (menu_item.id = menu_item_ingredient.menu_id) JOIN ingredients ON (menu_item_ingredient.ingredient_id = ingredients.id) LIMIT 100')
+        .query('SELECT menu_item.id as item_id, ingredients.name_ing, ingredients.id, ingredients.add_on_price,ingredients.stock, ingredients.valid_add_on FROM menu_item JOIN menu_item_ingredient ON (menu_item.id = menu_item_ingredient.menu_id) JOIN ingredients ON (menu_item_ingredient.ingredient_id = ingredients.id) LIMIT 100')
         .then((query_res) => {
             if (query_res.rows.length === 0) {
                 res.status(404).json({ error: 'No menu items found' });
@@ -269,11 +269,6 @@ app.put('/sells_together', (req, res) => {
 
 
 //---------------Temperature option---------------//
-    
-
-
-
-//---------------Temperature option---------------//
 const OPENWEATHERMAP_API_KEY = process.env.OPENWEATHERMAP_API_KEY;
 
 // Function to fetch temperature based on IP address
@@ -296,8 +291,8 @@ async function getTemperatureByIP(ipAddress) {
   }
   
   app.get('/temperature', async (req, res) => {
-    let ipAddress = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-    if(ipAddress === '::1' || ipAddress === '127.0.0.1') {
+    let ipAddress = req.ip || req.connection.remoteAddress;
+    if(ipAddress === '::1' || ipAddress === '127.0.0.1' || ipAddress === '::ffff:127.0.0.1') {
         // Use public IP address of the server if the client IP address is localhost
         ipAddress = '64.189.25.40';
     }

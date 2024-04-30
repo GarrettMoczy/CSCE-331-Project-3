@@ -8,7 +8,8 @@ import AddOnIngredientComp from "../AddOnIngredientComponent/AddOnIngredientComp
 interface IngredientItem {
     name: string,
     id: number,
-    price: number
+    price: number,
+    stock?: number
 }
 
 interface ModalItemProps {
@@ -64,6 +65,7 @@ function MenuItemModal({setOpenModal, name, price, altTxt, calorie, id, included
                                 name={item.name}
                                 price={item.price}
                                 id={item.id}
+                                stock = {item.stock}
                                 removedItems = {removedItems}
                             />
                         ))}
@@ -80,7 +82,9 @@ function MenuItemModal({setOpenModal, name, price, altTxt, calorie, id, included
                                 name={item.name}
                                 price={item.price}
                                 id={item.id}
+                                stock = {item.stock}
                                 addedItems = {addedItems}
+                                
                             />
                         ))}
                     </div>

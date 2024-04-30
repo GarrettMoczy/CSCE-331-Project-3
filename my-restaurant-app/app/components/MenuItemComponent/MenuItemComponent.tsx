@@ -5,7 +5,8 @@ import Modal from "../MenuItemModal/MenuItemModal";
 interface IngredientItem {
     name: string,
     id: number,
-    price: number
+    price: number,
+    stock?: number
 }
 interface MenuItemProps {
     name: string;

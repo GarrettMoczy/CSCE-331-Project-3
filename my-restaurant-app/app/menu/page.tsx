@@ -4,6 +4,7 @@ import DrinkItemComp from "../components/DrinkItemComponent/DrinkItemComponent";
 import React, { useState, useEffect } from 'react'
 import Navbar from "../components/Navbar/Navbar";
 import Translate from "../components/Translate/Translate";
+import axios from 'axios';
 export default function Menu() {
     enum ItemType {
         Drink = 1,
@@ -40,7 +41,7 @@ export default function Menu() {
     interface IngredientItem {
         name: string,
         id: number,
-        price: number
+        price: number,
     }
     
     
@@ -49,11 +50,14 @@ export default function Menu() {
     const [includedIngredients, setIncludedIngredients] = useState<IngredientItem[][]>([])
     const [allIngredients, setAllIngredients] = useState<IngredientItem[]>([])
     const [openModal, setOpenModal] = useState(false)
+    const [temperature, setTemperature] = useState(0)
+    const [showPopup, setShowPopup] = useState(false);
     
     useEffect(() => {
         getMenuItems();
         getDrinks();
         getIngredients();
+        tempRecomendation();
     }, []);
 
     const addToCart = (item: any) => (removedItems: IngredientItem[]) => (addedItems: IngredientItem[]) => {
@@ -68,6 +72,29 @@ export default function Menu() {
         console.log(testVar);
         localStorage.setItem("cart", testVar);
         console.log(testVar)
+    }
+
+ 
+
+    function tempRecomendation() {
+        fetch('http://localhost:3000/temperature')
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then((data) => {
+            setTemperature(data.temperature);
+            console.log(data.temperature)
+            // If the temperature is over 20 degrees, show the popup
+            if (data.temperature > 0) {
+                setShowPopup(true)
+            }
+        })
+        .catch((error) => {
+            console.error('Failed to fetch temperature:', error);
+        });
     }
 
     function getMenuItems(){
@@ -148,18 +175,24 @@ export default function Menu() {
    
     return (
         <main>
+
             <Navbar
                 openModal={openModal}
                 setOpenModal={setOpenModal}/>
             <div className='fixed right-0 bottom-0 z-[999]'>
                 <Translate></Translate>
             </div>
+            
 
             <div className="flex flex-col items-left h-auto w-auto pt-20">
 
                 <h1 className="text-8xl p-5">
                     Tacos
                 </h1>
+                <h2 className="text-4x p-5">
+                    {temperature > 20 && "Boy howdy its " + (temperature * 1.8 + 32) + " degrees out there! Cool off with a refreshing drink!"}
+                    {temperature <= 20 && "Golly Gee! its " + (temperature * 1.8 + 32) + " degrees out there! Warm up with a delicious taco and our firey hot sauce!"}
+                </h2>
                 <div className="flex flex-row flex-wrap font-bold text-white overflow-off">
                     {MenuItems.map((MenuItem, index) => (
                         <MenuItemComp
@@ -179,6 +212,7 @@ export default function Menu() {
                 <h1 className="text-8xl p-5">
                     Drinks
                 </h1>
+                
                 <div className="flex flex-row flex-wrap font-bold text-white overflow-off">
                     {DrinkItems.map((DrinkItem, index) => (
                         <DrinkItemComp

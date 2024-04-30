@@ -212,40 +212,35 @@ export default function Manager() {
             <div className='fixed right-0 bottom-3 z-[999]'>
                 <Translate></Translate>
             </div>
-            <div className='grid grid-cols-4 gap-4'>
-                {/* Fix Formatting */}
-                <div id='New Options'>   
-                    <br />
-                    <br />
-                    <br />                  
-                    <CreateMenuItemFunction name='Create Menu Item' items={ingredientList} fun={newMenuItem} />
-                    <CreateDrinkFunction name='Create Drink Size' fun={newDrink} />
-                    <CreateIngredientFunction name='Create Ingredient' fun={newIngredient} />
-                </div>
+            <div className='grid grid-cols-2 gap-10 flex justify-center items-center'>
+                <div>
+                    <div id='New Options' className='inline-flex rounded-md shadow-sm" role="group" relative h-1/4 my-24 border-2 border-zinc-700'>  
+                        <div className='font-semibold underline ml-2 text-xl'>
+                            Create item:   
+                        </div>   
+                        <CreateMenuItemFunction name='Create Menu Item' items={ingredientList} fun={newMenuItem} />
+                        <CreateDrinkFunction name='Create Drink Size' fun={newDrink} />
+                        <CreateIngredientFunction name='Create Ingredient' fun={newIngredient} />
+                    </div>
 
-                {/* Fix Formatting */}
-                <div id='Delete Options'>
-                    <br />
-                    <br />
-                    <br /> 
-                    <DeleteFunction name="Delete Ingredient" items = {ingredientList} fun = {deleteIngredient} />
-                    <DeleteFunction name="Delete Drink" items = {drinkList} fun = {deleteDrink} />
-                    <DeleteFunction name="Delete Menu Item" items = {menuList} fun = {deleteMenuItem} />
+                    <div id='Delete Options' className='inline-flex rounded-md shadow-sm" role="group" relative h-1/4 my-24 border-2 border-zinc-700'>
+                        <div className='font-semibold underline ml-2 text-xl'>
+                            Delete item:   
+                        </div>  
+                        <DeleteFunction name="Delete Ingredient" items = {ingredientList} fun = {deleteIngredient} />
+                        <DeleteFunction name="Delete Drink" items = {drinkList} fun = {deleteDrink} />
+                        <DeleteFunction name="Delete Menu Item" items = {menuList} fun = {deleteMenuItem} />
+                    </div>
+                        
+                    <div id='Changing' className='inline-flex rounded-md shadow-sm" role="group" relative h-1/4 my-20 border-2 border-zinc-700'>
+                        <div className='font-semibold underline ml-2 text-xl'>
+                            Modify item:   
+                        </div>  
+                        <IncreaseStockFunction name="Increase Ingredient Stock" items={ingredientList} fun={increaseStock} />
+                        <ChangePriceFunction name="Change Menu Item Price" items={menuList} fun={changePrice} />
+                    </div>
                 </div>
-                    
-                {/* Fix Formatting */}    
-                <div id='Changing'>
-                    <br />
-                    <br />
-                    <br /> 
-                    <IncreaseStockFunction name="Increase Ingredient Stock" items={ingredientList} fun={increaseStock} />
-                    <ChangePriceFunction name="Change Menu Item Price" items={menuList} fun={changePrice} />
-                </div>
-                {/* Fix Formatting */} 
-                <div id='Tables' className=''>
-                    <br />
-                    <br />
-                    <br /> 
+                <div id='Tables' className='h-screen flex items-center justify-center'>
                     <TableFunction></TableFunction>
                 </div>
             </div>
