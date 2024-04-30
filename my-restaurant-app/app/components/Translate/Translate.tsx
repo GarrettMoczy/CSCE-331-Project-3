@@ -2,6 +2,18 @@
 import React, { useEffect } from "react";
 declare var google: any;
 
+declare global {
+    interface Window {
+        google: any;
+    }
+}
+
+declare global {
+    interface Window {
+      googleTranslateElementInit: () => any;
+    }
+}
+
 const Translate: React.FC = () => {
 
   
