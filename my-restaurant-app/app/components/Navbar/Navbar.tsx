@@ -25,7 +25,7 @@ const Navbar: React.FC<modalControl> = ({setOpenModal, openModal}: modalControl)
   useEffect(() => {
     if(typeof window !== 'undefined') {
       gapi.load('client:auth2', start);
-  }});
+  }},[]);
 
   
   const onSuccess = (response: any) => {
