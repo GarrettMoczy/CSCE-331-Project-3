@@ -129,7 +129,7 @@ export default function checkOut() {
                     </Link>
                 </div>
             </div>
-            <div className="flex flex-row w-full justify-between h-100vh flex-wrap p-20">
+            <div className="flex flex-row w-full justify-between h-5/6 flex-wrap p-20">
                 <h1 className=" w-full text-[50px] text-black">CHECK OUT</h1>
                 <div className="flex  flex-col justify-around relative border-zinc-400 border-2 rounded-lg w-2/5 h-full">
                     <h2 className="flex flex-row items-center justify-items-center h-28 w-full text-[25px]">
@@ -137,7 +137,7 @@ export default function checkOut() {
                             MY CART
                         </div>
                     </h2>
-                    <div className="h-4/5">
+                    <div className="h-4/5 overflow-y-auto">
                         {cart.map((CartItem, index) => (
                             <CartItemComponent
                                 key={index}
@@ -176,7 +176,7 @@ export default function checkOut() {
                         </div>
                     </footer>
                 </div>
-                <div className="flex flex-col justify-around relative border-zinc-400 border-2 rounded-lg w-1/2 h-full">
+                <div className="flex flex-col relative border-zinc-400 border-2 rounded-lg w-1/2 h-3/4">
                     <h2 className="flex flex-row items-center justify-items-center h-28 w-full text-[25px]">
                         <div className="border-b-2 border-zinc-400 w-full p-5">
                             CREDIT CARD INFORMATION
