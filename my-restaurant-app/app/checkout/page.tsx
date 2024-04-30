@@ -22,7 +22,7 @@ interface IngredientItem {
 
 
 export default function CheckOut() {
-    const [cart, setCart] = useState<CartItemProps[]>(localStorage.getItem("cart") != null ? JSON.parse(localStorage.getItem("cart") as string) : [])
+    const [cart, setCart] = useState<CartItemProps[]>([])
 
     function calculateSubtotal(cart: CartItemProps[]): number {
         let subtotal = 0;
@@ -38,6 +38,14 @@ export default function CheckOut() {
     }
     let subtotal = calculateSubtotal(cart)
 
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const storedCart = localStorage.getItem("cart");
+            if (storedCart) {
+                setCart(JSON.parse(storedCart));
+            }
+        }
+    }, []);
 
     const [cardNumber, setCardNumber] = useState("");
     const [cardholderName, setCardholderName] = useState("");
@@ -109,7 +117,7 @@ export default function CheckOut() {
             //console.log(data)
             alert(data.orderId)
             localStorage.clear()
-            if(window !== undefined) {
+            if(typeof window !== undefined) {
                 window.location.href = "/";
             }
         });
