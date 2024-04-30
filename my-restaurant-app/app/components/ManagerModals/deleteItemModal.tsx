@@ -22,12 +22,12 @@ function DeleteItemModal({ setOpenModal, name, items, fun}: ModalItemProps) {
     }
     return (
     <div className="modalBackground">
-        <div className="border-zinc-700 border-2 bg-zinc-900 rounded-lg ">
+        <div className="border-zinc-700 border-2 bg-zinc-900 rounded-lg">
             <div className="self-end float-right p-2">
                 <button onClick={()=> setOpenModal(false)}> X </button>
             </div>
             <div className="">
-                <div className='font-bold text-white place-self-center'>
+                <div className='font-bold text-white place-self-center ml-2'>
                     {name}:
                 </div>
                 <form>
