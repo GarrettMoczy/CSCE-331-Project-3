@@ -269,11 +269,6 @@ app.put('/sells_together', (req, res) => {
 
 
 //---------------Temperature option---------------//
-    
-
-
-
-//---------------Temperature option---------------//
 const OPENWEATHERMAP_API_KEY = process.env.OPENWEATHERMAP_API_KEY;
 
 // Function to fetch temperature based on IP address
@@ -296,8 +291,8 @@ async function getTemperatureByIP(ipAddress) {
   }
   
   app.get('/temperature', async (req, res) => {
-    let ipAddress = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-    if(ipAddress === '::1' || ipAddress === '127.0.0.1') {
+    let ipAddress = req.ip || req.connection.remoteAddress;
+    if(ipAddress === '::1' || ipAddress === '127.0.0.1' || ipAddress === '::ffff:127.0.0.1') {
         // Use public IP address of the server if the client IP address is localhost
         ipAddress = '64.189.25.40';
     }
