@@ -19,7 +19,7 @@ interface IngredientItemProp {
 
 
 
-export default function includedIngredientComp({name, id, price,stock, removedItems}: IngredientItemProp) {
+export default function IncludedIngredientComp({name, id, price,stock, removedItems}: IngredientItemProp) {
 
     function modifyRemovedIngredients() {
         let obj = removedItems.findIndex(o => o.name === name)
