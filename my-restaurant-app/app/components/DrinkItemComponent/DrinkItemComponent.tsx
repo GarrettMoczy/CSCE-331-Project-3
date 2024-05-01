@@ -16,7 +16,7 @@ export default function DrinkItem({size, price, altTxt, calorie, thisOnClick, se
         <div>
             <div className='flex flex-col relative flex-wrap border-zinc-700 border-2 bg-zinc-900 rounded-lg overflow-off m-5 w-52'>
                 <div className="flex flex-col px-5 pt-5">
-                    <img src={"images/drinks/" + size + ".jpg"} alt={size + " Drink"} className="w-40 h-50"></img>
+                    <img src={"/images/drinks/" + size + ".jpg"} alt={size + " Drink"} className="w-40 h-50"></img>
                     <div className='font-bold text-white'>
                         {size}
                     </div>

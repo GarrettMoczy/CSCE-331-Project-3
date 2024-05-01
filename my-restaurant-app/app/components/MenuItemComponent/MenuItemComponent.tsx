@@ -27,7 +27,7 @@ export default function MenuItem({name, price, altTxt, calorie, id, includedIngr
         <div>
             <div className='flex flex-col relative flex-wrap border-zinc-700 border-2 bg-zinc-900 rounded-lg overflow-off m-5 w-52 items-center'>
                 <div className="flex flex-col px-5 pt-5">
-                    <img src={"images/tacos/" + name + ".jpg"} className="w-40 h-50" alt={name}></img>
+                    <img src={"/images/tacos/" + name + ".jpg"} className="w-40 h-50" alt={name}></img>
                     <div className='font-bold text-white'>
                         {name}
                     </div>

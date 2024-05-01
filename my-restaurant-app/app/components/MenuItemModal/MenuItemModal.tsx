@@ -40,7 +40,7 @@ function MenuItemModal({setOpenModal, name, price, altTxt, calorie, id, included
     <div className="modalBackground">
         <div className="flex flex-col relative border-zinc-700 border-2 bg-zinc-900 rounded-lg w-4/5 h-4/5">
             <div className="header flex flex-row items-center justify-items-center h-28 w-full p-5">
-            <img src={"images/tacos/" + name + ".jpg"} className="w-24 pr-5" alt={name}></img>
+            <img src={"/images/tacos/" + name + ".jpg"} className="w-24 pr-5" alt={name}></img>
                 <div>
                     {name}
                 </div>

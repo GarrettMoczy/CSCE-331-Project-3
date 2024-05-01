@@ -39,7 +39,7 @@ export default function IncludedIngredientComp({name, id, price,stock, removedIt
     return (
         !selected && (
         <button onClick={() => {modifyRemovedIngredients(); if(removedItems.find(o => o.name === name)){ setSelected(true)}}} className="border-zinc-700 border-2 bg-zinc-900 rounded-lg overflow-off m-5 p-2 w-auto text-sm ">
-            <img className="w-32 m-2" src={"images/ingredients/" + name + ".jpg"} alt={name}/>
+            <img className="w-32 m-2" src={"/images/ingredients/" + name + ".jpg"} alt={name}/>
             <div className = "flex flex-col">
                 <div>
                     {name}
@@ -51,8 +51,8 @@ export default function IncludedIngredientComp({name, id, price,stock, removedIt
         </button>)
         || selected && (
         <button onClick={() => {modifyRemovedIngredients(); if(!removedItems.find(o => o.name === name)){ setSelected(false)}}} className="border-red-700 border-2 bg-zinc-900 rounded-lg overflow-off m-5 p-2 w-auto text-sm relative">
-            <img className="w-32 m-2" src={"images/ingredients/" + name + ".jpg"} alt={name}/>
-            <img src={"images/redx.png"} className="w-12 absolute z-[1001] top-14 left-14"></img>
+            <img className="w-32 m-2" src={"/images/ingredients/" + name + ".jpg"} alt={name}/>
+            <img src={"/images/redx.png"} className="w-12 absolute z-[1001] top-14 left-14"></img>
             <div className = "flex flex-col">
                 <div>
                     {name}
