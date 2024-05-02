@@ -1,8 +1,8 @@
 const express = require('express');
 const { Pool } = require('pg');
 const dotenv = require('dotenv').config();
-const requestIp = require('request-ip');
-const axios = require('axios');
+// const requestIp = require('request-ip');
+// const axios = require('axios');
 
 
 
@@ -22,13 +22,10 @@ const pool = new Pool({
 });
 
 app.use(express.json())
-app.use(requestIp.mw());
+// app.use(requestIp.mw());
 app.use((req, res, next) => {
-        res.header("Access-Control-Allow-Origin", "*");
-        res.header(
-            "Access-Control-Allow-Headers",
-            "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-        );
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "*");
     if (req.method == "OPTIONS") {
         res.header("Access-Control-Allow-Methods", "PUT, POST, PATCH, DELETE, GET");
         return res.status(200).json({});
@@ -263,6 +260,52 @@ app.put('/excess_report', (req, res) => {
 app.put('/sells_together', (req, res) => {
     const {strDate, enDate} = req.body;
     const queryPrompt = "select * from sells_together(" + "\'" + strDate + "\'" + "," + "\'" + enDate + "\'" + ")";
+    console.log(req.body);
+    pool
+        .query(queryPrompt)
+        .then(response => {
+            console.log(response);
+            res.json(response.rows);
+        })  
+});
+
+app.get('/restock', (req, res) => {
+    const queryPrompt = "select * from restock()";
+    console.log(req.body);
+    pool
+        .query(queryPrompt)
+        .then(response => {
+            console.log(response);
+            res.json(response.rows);
+        })  
+});
+
+app.get('/get_menu_items', (req, res) => {
+    const queryPrompt = "select * from grab_menu_items()";
+    console.log(req.body);
+    pool
+        .query(queryPrompt)
+        .then(response => {
+            console.log(response);
+            res.json(response.rows);
+        })  
+});
+
+app.put('/product_usage', (req, res) => {
+    const {strDate, enDate} = req.body;
+    const queryPrompt = "select * from product_usage(" + "\'" + strDate + "\'" + "," + "\'" + enDate + "\'" + ")";
+    console.log(req.body);
+    pool
+        .query(queryPrompt)
+        .then(response => {
+            console.log(response);
+            res.json(response.rows);
+        })  
+});
+
+app.put('/view_orders', (req, res) => {
+    const {strDate, enDate} = req.body;
+    const queryPrompt = "select * from grab_orders(" + "\'" + strDate + "\'" + "," + "\'" + enDate + "\'" + ")";
     console.log(req.body);
     pool
         .query(queryPrompt)
