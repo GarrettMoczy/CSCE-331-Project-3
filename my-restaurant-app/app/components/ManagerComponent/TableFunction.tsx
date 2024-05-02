@@ -26,10 +26,17 @@ export default function CreateDrink(){
     const[col3, setCol3] = useState("");
 
     const[tableStatus, setTableStatus] = useState(true);
+    const[dateStatus, setDateStatus] = useState(true);
 
 
     const changeFun = (e: any) => {
         setFun(e.target.value);
+        if(e.target.value == "Restock") {
+            setDateStatus(false);
+        }
+        else {
+            setDateStatus(true);
+        }
     }
 
     function tableCreation() {
@@ -61,6 +68,27 @@ export default function CreateDrink(){
             excessReport(startFormatted,endFormatted);
             setTableStatus(false);
         }
+        if(fun == "Product") {
+            setCol1("Ingredients");
+            setCol2("Count");
+            setCol3("");
+            productUsage(startFormatted,endFormatted);
+            setTableStatus(false);
+        }
+        if(fun == "Restock") {
+            setCol1("Ingredients");
+            setCol2("Stock");
+            setCol3("");
+            restock();
+            setTableStatus(false);
+        }
+        if(fun == "Orders") {
+            setCol1("Order ID");
+            setCol2("Price");
+            setCol3("Items");
+            getOrders(startFormatted,endFormatted);
+            setTableStatus(false);
+        }
     }
 
     //---------------Getting Tables---------------//
@@ -70,7 +98,6 @@ export default function CreateDrink(){
         fetch(' https://csce-331-project-3-10.onrender.com/sales_report', {
             method: 'PUT',
             headers: {
-                'Access-Control-Allow-Headers': "*",
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({strDate, enDate}),
@@ -95,7 +122,6 @@ export default function CreateDrink(){
         fetch(' https://csce-331-project-3-10.onrender.com/sells_together', {
             method: 'PUT',
             headers: {
-                'Access-Control-Allow-Headers': "*",
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({strDate, enDate}),
@@ -122,7 +148,6 @@ export default function CreateDrink(){
         fetch(' https://csce-331-project-3-10.onrender.com/excess_report', {
             method: 'PUT',
             headers: {
-                'Access-Control-Allow-Headers': "*",
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({strDate, enDate}),
@@ -136,6 +161,72 @@ export default function CreateDrink(){
         .then((data) => {
             const tableData: Table[] = data.map((item: any) => ({
             col1: item.name_of_item,
+        }));
+        setTableVal(tableData);
+        })
+        console.log(tableVal);
+    }
+
+    function productUsage(strDate: string, enDate: string) {
+        fetch('http://localhost:3000/product_usage', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({strDate, enDate}),
+        })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then((data) => {
+            const tableData: Table[] = data.map((item: any) => ({
+            col1: item.name,
+            col2: item.count
+        }));
+        setTableVal(tableData);
+        })
+        console.log(tableVal);
+    }
+
+    function restock(){
+        fetch(`http://localhost:3000/restock`) // Replace with the actual API endpoint URL
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then((data) => {
+                const tableData: Table[] = data.map((item: any) => ({
+                col1: item.item,
+                col2: item.quantity
+            }));
+            setTableVal(tableData);
+        })
+    }
+
+    function getOrders(strDate: string, enDate: string) {
+        fetch('http://localhost:3000/view_orders', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({strDate, enDate}),
+        })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then((data) => {
+            const tableData: Table[] = data.map((item: any) => ({
+            col1: item.order_id,
+            col2: item.price,
+            col3: [item.items].toString() + ","  + [item.drink_items].toString() + "," + [item.ing_items].toString() 
         }));
         setTableVal(tableData);
         })
@@ -173,15 +264,20 @@ export default function CreateDrink(){
                 </div>
                 <br />
                 <div id="functionality" className="ml-2">
-                    Start Date:
-                    <DatePicker className="flex flex-col relative flex-wrap border-zinc-700 border-2 bg-zinc-900 rounded-lg overflow-off m-5 w-52" dateFormat="yyyy-MM-dd" selectsStart selected={startDate} onChange={(date: any) => setStartDate(date)} />
-                    <br />
-                    End Date:
-                    <DatePicker className="flex flex-col relative flex-wrap border-zinc-700 border-2 bg-zinc-900 rounded-lg overflow-off m-5 w-52" dateFormat="yyyy-MM-dd" selectsEnd selected={endDate} onChange={(date: any) => setEndDate(date)} endDate={endDate} startDate={startDate} minDate={startDate} />
+                    <div hidden={!dateStatus}>
+                        Start Date:
+                        <DatePicker className="flex flex-col relative flex-wrap border-zinc-700 border-2 bg-zinc-900 rounded-lg overflow-off m-5 w-52" dateFormat="yyyy-MM-dd" selectsStart selected={startDate} onChange={(date: any) => setStartDate(date)} />
+                        <br />
+                        End Date:
+                        <DatePicker className="flex flex-col relative flex-wrap border-zinc-700 border-2 bg-zinc-900 rounded-lg overflow-off m-5 w-52" dateFormat="yyyy-MM-dd" selectsEnd selected={endDate} onChange={(date: any) => setEndDate(date)} endDate={endDate} startDate={startDate} minDate={startDate} />
+                    </div>
                     <select onChange={changeFun} className="flex flex-col relative flex-wrap border-zinc-700 border-2 bg-zinc-900 rounded-lg overflow-off m-5 w-52">
                         <option value={"Sales"}>Sales Report</option>
                         <option value={"Together"}>Sells Together</option>
                         <option value={"Excess"}>Excess Report</option>
+                        <option value={"Product"}>Product Usage</option>
+                        <option value={"Restock"}>Restock Report</option>
+                        <option value={"Orders"}>View Orders</option>
                     </select>
                     <div id="Generate">
                         <button onClick={() => {tableCreation();}} className="self-center border-2 rounded-md bg-black p-1 m-3 w-40"> Generate Table </button>
