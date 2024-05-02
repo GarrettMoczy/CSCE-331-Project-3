@@ -10,6 +10,7 @@ import CreateIngredientFunction from "../components/ManagerComponent/createIngre
 import ChangePriceFunction from "../components/ManagerComponent/changePriceFunction"
 import IncreaseStockFunction from "../components/ManagerComponent/increaseStockFunction"
 import TableFunction from "../components/ManagerComponent/TableFunction"
+import ViewFunction from "../components/ManagerComponent/viewItemsFunction"
 
 
 
@@ -45,7 +46,6 @@ export default function Manager() {
         fetch(' https://csce-331-project-3-10.onrender.com/new_menu_option', {
             method: 'POST',
             headers: {
-                'Access-Control-Allow-Headers': "*",
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({name, price, calories, ingredients}),
@@ -58,7 +58,6 @@ export default function Manager() {
         fetch(' https://csce-331-project-3-10.onrender.com/new_add_on', {
             method: 'POST',
             headers: {
-                'Access-Control-Allow-Headers': "*",
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({name, stock, price, minStock, addOn}),
@@ -71,7 +70,6 @@ export default function Manager() {
         fetch(' https://csce-331-project-3-10.onrender.com/new_drink', {
             method: 'POST',
             headers: {
-                'Access-Control-Allow-Headers': "*",
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({size, price}),
@@ -87,7 +85,6 @@ export default function Manager() {
         fetch(' https://csce-331-project-3-10.onrender.com/delete_drink', {
             method: 'DELETE',
             headers: {
-                'Access-Control-Allow-Headers': "*",
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({name}),
@@ -100,7 +97,6 @@ export default function Manager() {
         fetch(' https://csce-331-project-3-10.onrender.com/delete_menu_item', {
             method: 'DELETE',
             headers: {
-                'Access-Control-Allow-Headers': "*",
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({name}),
@@ -113,7 +109,6 @@ export default function Manager() {
         fetch(' https://csce-331-project-3-10.onrender.com/delete_ingredient', {
             method: 'DELETE',
             headers: {
-                'Access-Control-Allow-Headers': "*",
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({name}),
@@ -129,7 +124,6 @@ export default function Manager() {
         fetch(' https://csce-331-project-3-10.onrender.com/change_stock', {
             method: 'PUT',
             headers: {
-                'Access-Control-Allow-Headers': "*",
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({name, stock}),
@@ -143,7 +137,6 @@ export default function Manager() {
         fetch(' https://csce-331-project-3-10.onrender.com/change_price', {
             method: 'PUT',
             headers: {
-                'Access-Control-Allow-Headers': "*",
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({name, price}),
@@ -234,8 +227,9 @@ export default function Manager() {
                         
                     <div id='Changing' className='inline-flex rounded-md shadow-sm" role="group" relative h-1/4 my-20 border-2 border-zinc-700'>
                         <div className='font-semibold underline ml-2 text-xl'>
-                            Modify item:   
+                            View or Change items:   
                         </div>  
+                        <ViewFunction></ViewFunction>
                         <IncreaseStockFunction name="Increase Ingredient Stock" items={ingredientList} fun={increaseStock} />
                         <ChangePriceFunction name="Change Menu Item Price" items={menuList} fun={changePrice} />
                     </div>
