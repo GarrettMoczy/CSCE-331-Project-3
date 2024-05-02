@@ -226,6 +226,27 @@ export default function Menu() {
                         />
                     ))}
                 </div>
+                 <h1 className="text-8xl p-5">
+                    Seasonal
+                </h1>
+                <div className="flex flex-row flex-wrap font-bold text-white overflow-off">
+                    {MenuItems.map((MenuItem, index) => (
+                        if (index % 5 == 0) {
+                        <MenuItemComp
+                            key={index}
+                            name={MenuItem.name}
+                            price={MenuItem.price}
+                            calorie={MenuItem.calorie}
+                            thisOnClick={addToCart(MenuItem)}
+                            includedIngredients={includedIngredients?.at(MenuItem.id) || []}
+                            addOns = {filterAddOns(includedIngredients?.at(MenuItem.id) || [], allIngredients)}
+                            altTxt={MenuItem.altTxt}
+                            id={MenuItem.id}
+                            setCartModal={setOpenModal}
+                        />
+                    }
+                    ))}
+                </div>
             </div>
         </main>
     );
